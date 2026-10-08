@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Monitor Profiles öffnen</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>Vorschau zurücksetzen</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>Beenden</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>Monitor Profiles mit Windows starten und im Infobereich geöffnet lassen?</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>Autostart aktivieren</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>Später</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Mit Windows starten</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>Die Windows-Starteinstellung konnte nicht aktualisiert werden.</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Profil löschen</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>{0} löschen?</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Ein Fehler ist aufgetreten</value></data>

@@ -54,9 +54,23 @@
             </ComboBox>
         </Grid>
 
-        <Border Grid.Row="1" x:Name="ErrorPanel" Background="{DynamicResource RaisedSurfaceBrush}" BorderBrush="{DynamicResource ErrorBrush}" BorderThickness="1" CornerRadius="10" Padding="15,11" Margin="0,0,0,18" Visibility="Collapsed">
-            <TextBlock Text="{Binding ErrorMessage}" Foreground="{DynamicResource TextPrimaryBrush}" TextWrapping="Wrap" />
-        </Border>
+        <StackPanel Grid.Row="1">
+            <Border x:Name="ErrorPanel" Background="{DynamicResource RaisedSurfaceBrush}" BorderBrush="{DynamicResource ErrorBrush}" BorderThickness="1" CornerRadius="10" Padding="15,11" Margin="0,0,0,18" Visibility="Collapsed">
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="{DynamicResource TextPrimaryBrush}" TextWrapping="Wrap" />
+            </Border>
+            <Border x:Name="StartupReminderPanel" Background="{DynamicResource RaisedSurfaceBrush}" BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1" CornerRadius="10" Padding="15,11" Margin="0,0,0,18" Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{loc:Translate Startup.Reminder}" Foreground="{DynamicResource TextPrimaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,16,0" />
+                    <Button Grid.Column="1" Content="{loc:Translate Startup.Enable}" Style="{StaticResource PrimaryButton}" Click="EnableStartup_Click" Margin="0,0,8,0" />
+                    <Button Grid.Column="2" Content="{loc:Translate Startup.Later}" Click="DismissStartupReminder_Click" />
+                </Grid>
+            </Border>
+        </StackPanel>
 
         <Grid Grid.Row="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

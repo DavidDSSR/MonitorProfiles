@@ -22,6 +22,7 @@ public partial class App : System.Windows.Application
         var preferencesResult = await preferencesRepository.LoadAsync();
         var localization = LocalizationService.Instance;
         localization.SetLanguage(preferencesResult.Preferences.EffectiveLanguageCode);
+        var startupRegistrationService = new StartupRegistrationService();
         _themeService = new ThemeService(this);
         _themeService.Apply(preferencesResult.Preferences.EffectiveTheme);
         var viewModel = new MainViewModel(
@@ -30,12 +31,16 @@ public partial class App : System.Windows.Application
             preferencesRepository,
             preferencesResult,
             _themeService,
-            localization);
+            localization,
+            startupRegistrationService);
         var mainWindow = new MainWindow(viewModel, displayService);
         MainWindow = mainWindow;
 
         await viewModel.InitializeAsync();
-        mainWindow.Show();
+        if (!StartupRegistrationService.IsBackgroundStartup(e.Args))
+        {
+            mainWindow.Show();
+        }
         _trayIconService = new TrayIconService(mainWindow, viewModel);
     }
 

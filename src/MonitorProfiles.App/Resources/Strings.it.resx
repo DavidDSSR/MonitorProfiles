@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Apri Monitor Profiles</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>Ripristina anteprima</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>Esci</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>Vuoi avviare Monitor Profiles con Windows e lasciarlo nell'area di notifica?</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>Attiva avvio</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>Non ora</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Avvia con Windows</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>Impossibile aggiornare l'impostazione di avvio di Windows.</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Elimina profilo</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>Eliminare {0}?</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Si è verificato un errore</value></data>

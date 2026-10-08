@@ -43,6 +43,18 @@ public sealed class TrayIconService : IDisposable
         _contextMenu.Items.Clear();
         _contextMenu.Items.Add(LocalizationService.Instance.Get("Tray.Open"), null, (_, _) => _mainWindow.ShowFromTray());
 
+        var startupItem = new Forms.ToolStripMenuItem(LocalizationService.Instance.Get("Startup.Menu"))
+        {
+            CheckOnClick = true,
+            Checked = _viewModel.LaunchAtStartup
+        };
+        startupItem.Click += async (_, _) =>
+        {
+            await _viewModel.SetLaunchAtStartupAsync(startupItem.Checked);
+            startupItem.Checked = _viewModel.LaunchAtStartup;
+        };
+        _contextMenu.Items.Add(startupItem);
+
         if (_viewModel.Profiles.Count > 0)
         {
             _contextMenu.Items.Add(new Forms.ToolStripSeparator());

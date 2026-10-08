@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Open Monitor Profiles</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>Revert preview</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>Exit</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>Have Monitor Profiles start with Windows and stay in the system tray?</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>Enable startup</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>Not now</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Start with Windows</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>Could not update the Windows startup setting.</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Delete profile</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>Delete {0}?</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Something went wrong</value></data>

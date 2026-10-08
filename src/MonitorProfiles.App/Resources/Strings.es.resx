@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Abrir Monitor Profiles</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>Revertir prueba</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>Salir</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>¿Quieres que Monitor Profiles se inicie con Windows y permanezca en la bandeja del sistema?</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>Activar inicio</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>Ahora no</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Iniciar con Windows</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>No se pudo actualizar la configuración de inicio de Windows.</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Eliminar perfil</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>¿Eliminar {0}?</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Se produjo un error</value></data>

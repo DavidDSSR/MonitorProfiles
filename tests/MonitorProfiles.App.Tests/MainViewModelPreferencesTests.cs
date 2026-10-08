@@ -41,16 +41,62 @@ public sealed class MainViewModelPreferencesTests : IDisposable
         Assert.Equal(ThemePreference.Dark, saved.Preferences.EffectiveTheme);
     }
 
+    [Fact]
+    public async Task Enabling_startup_registers_background_launch_and_suppresses_the_first_run_reminder()
+    {
+        var preferencesRepository = new ApplicationPreferencesRepository(Path.Combine(_directory, "preferences.json"));
+        var startupRegistration = new FakeStartupRegistrationService();
+        var viewModel = CreateViewModel(
+            preferencesRepository,
+            new LocalizationService(),
+            new FakeThemeService(),
+            startupRegistration);
+
+        Assert.True(viewModel.ShowStartupReminder);
+
+        await viewModel.SetLaunchAtStartupAsync(true);
+
+        var saved = await preferencesRepository.LoadAsync();
+        Assert.True(startupRegistration.IsEnabled);
+        Assert.True(viewModel.LaunchAtStartup);
+        Assert.False(viewModel.ShowStartupReminder);
+        Assert.True(saved.Preferences.LaunchAtStartup);
+        Assert.True(saved.Preferences.StartupReminderDismissed);
+    }
+
+    [Fact]
+    public async Task Dismissing_the_first_run_reminder_persists_the_choice_without_enabling_startup()
+    {
+        var preferencesRepository = new ApplicationPreferencesRepository(Path.Combine(_directory, "preferences.json"));
+        var startupRegistration = new FakeStartupRegistrationService();
+        var viewModel = CreateViewModel(
+            preferencesRepository,
+            new LocalizationService(),
+            new FakeThemeService(),
+            startupRegistration);
+
+        await viewModel.DismissStartupReminderAsync();
+
+        var saved = await preferencesRepository.LoadAsync();
+        Assert.False(startupRegistration.IsEnabled);
+        Assert.False(viewModel.LaunchAtStartup);
+        Assert.False(viewModel.ShowStartupReminder);
+        Assert.False(saved.Preferences.LaunchAtStartup);
+        Assert.True(saved.Preferences.StartupReminderDismissed);
+    }
+
     private MainViewModel CreateViewModel(
         ApplicationPreferencesRepository preferencesRepository,
         LocalizationService localization,
-        IThemeService themeService) => new(
+        IThemeService themeService,
+        IStartupRegistrationService? startupRegistrationService = null) => new(
             new EmptyDisplayService(),
             new ProfileRepository(Path.Combine(_directory, "profiles.json")),
             preferencesRepository,
             new ApplicationPreferencesLoadResult(ApplicationPreferences.Default, null),
             themeService,
-            localization);
+            localization,
+            startupRegistrationService ?? new FakeStartupRegistrationService());
 
     public void Dispose()
     {
@@ -70,6 +116,13 @@ public sealed class MainViewModelPreferencesTests : IDisposable
             Preference = preference;
             ThemeChanged?.Invoke(this, EventArgs.Empty);
         }
+    }
+
+    private sealed class FakeStartupRegistrationService : IStartupRegistrationService
+    {
+        public bool IsEnabled { get; private set; }
+
+        public void SetEnabled(bool enabled) => IsEnabled = enabled;
     }
 
     private sealed class EmptyDisplayService : IDisplayService

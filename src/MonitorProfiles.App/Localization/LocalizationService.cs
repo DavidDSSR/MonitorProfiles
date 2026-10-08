@@ -42,6 +42,7 @@ public sealed class LocalizationService : INotifyPropertyChanged
         "Editor.NameRequired", "Editor.DuplicateName",
         "Preview.Title", "Preview.Description", "Preview.Countdown", "Preview.Keep", "Preview.Revert",
         "Tray.Open", "Tray.Revert", "Tray.Exit",
+        "Startup.Reminder", "Startup.Enable", "Startup.Later", "Startup.Menu", "Error.StartupRegistration",
         "Dialog.DeleteTitle", "Dialog.DeleteConfirm", "Dialog.ErrorTitle", "Dialog.RevertTitle",
         "Identify.OffTitle", "Identify.OffDetail"
     ]);

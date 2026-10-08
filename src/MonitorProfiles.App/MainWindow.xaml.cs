@@ -61,7 +61,7 @@ public partial class MainWindow : Window
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(MainViewModel.IsReady) or nameof(MainViewModel.ErrorMessage) or nameof(MainViewModel.IsCorruptStore) or nameof(MainViewModel.IsBusy))
+        if (e.PropertyName is nameof(MainViewModel.IsReady) or nameof(MainViewModel.ErrorMessage) or nameof(MainViewModel.IsCorruptStore) or nameof(MainViewModel.IsBusy) or nameof(MainViewModel.ShowStartupReminder))
         {
             UpdatePanels();
         }
@@ -84,12 +84,25 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void EnableStartup_Click(object sender, RoutedEventArgs e)
+    {
+        await _viewModel.SetLaunchAtStartupAsync(true);
+        UpdatePanels();
+    }
+
+    private async void DismissStartupReminder_Click(object sender, RoutedEventArgs e)
+    {
+        await _viewModel.DismissStartupReminderAsync();
+        UpdatePanels();
+    }
+
     private void UpdatePanels()
     {
         IsEnabled = !_viewModel.IsBusy;
         SetupPanel.Visibility = !_viewModel.IsReady && !_viewModel.IsCorruptStore ? Visibility.Visible : Visibility.Collapsed;
         ProfilesPanel.Visibility = _viewModel.IsReady ? Visibility.Visible : Visibility.Collapsed;
         ErrorPanel.Visibility = string.IsNullOrWhiteSpace(_viewModel.ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
+        StartupReminderPanel.Visibility = _viewModel.ShowStartupReminder ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private async void SaveSetup_Click(object sender, RoutedEventArgs e)

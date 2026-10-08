@@ -17,6 +17,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private readonly ProfileRepository _repository;
     private readonly ApplicationPreferencesRepository _preferencesRepository;
     private readonly IThemeService _themeService;
+    private readonly IStartupRegistrationService _startupRegistrationService;
     private readonly LocalizationService _localization;
     private ApplicationPreferences _preferences;
     private readonly PreferencesRecoveryReason? _preferencesRecoveryReason;
@@ -37,7 +38,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         ApplicationPreferencesRepository preferencesRepository,
         ApplicationPreferencesLoadResult preferencesResult,
         IThemeService themeService,
-        LocalizationService localization)
+        LocalizationService localization,
+        IStartupRegistrationService startupRegistrationService)
     {
         _displayService = displayService;
         _applicationService = new ProfileApplicationService(displayService);
@@ -46,6 +48,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         _preferences = preferencesResult.Preferences;
         _preferencesRecoveryReason = preferencesResult.RecoveryReason;
         _themeService = themeService;
+        _startupRegistrationService = startupRegistrationService;
         _localization = localization;
         _localization.LanguageChanged += Localization_LanguageChanged;
     }
@@ -55,6 +58,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public IReadOnlyList<LanguageOption> Languages => LocalizationService.SupportedLanguages;
     public string SelectedLanguageCode => _localization.LanguageCode;
     public ThemePreference SelectedTheme => _preferences.EffectiveTheme;
+    public bool LaunchAtStartup => _preferences.LaunchAtStartup;
+    public bool ShowStartupReminder => !LaunchAtStartup && !_preferences.StartupReminderDismissed;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -212,6 +217,71 @@ public sealed class MainViewModel : INotifyPropertyChanged
         await SavePreferencesAsync();
     }
 
+    public async Task SetLaunchAtStartupAsync(bool enabled)
+    {
+        var previous = _preferences;
+        var registrationChanged = false;
+        SetErrorMessage(null);
+
+        try
+        {
+            _startupRegistrationService.SetEnabled(enabled);
+            registrationChanged = true;
+            _preferences = previous with
+            {
+                LaunchAtStartup = enabled,
+                StartupReminderDismissed = true
+            };
+            OnPropertyChanged(nameof(LaunchAtStartup));
+            OnPropertyChanged(nameof(ShowStartupReminder));
+
+            if (!await SavePreferencesAsync())
+            {
+                _preferences = previous;
+                OnPropertyChanged(nameof(LaunchAtStartup));
+                OnPropertyChanged(nameof(ShowStartupReminder));
+                _startupRegistrationService.SetEnabled(previous.LaunchAtStartup);
+            }
+        }
+        catch (Exception exception)
+        {
+            _preferences = previous;
+            OnPropertyChanged(nameof(LaunchAtStartup));
+            OnPropertyChanged(nameof(ShowStartupReminder));
+            if (registrationChanged)
+            {
+                try
+                {
+                    _startupRegistrationService.SetEnabled(previous.LaunchAtStartup);
+                }
+                catch (Exception rollbackException)
+                {
+                    SetErrorMessage("Error.StartupRegistration", $"{exception.Message}{Environment.NewLine}{rollbackException.Message}");
+                    return;
+                }
+            }
+
+            SetErrorMessage("Error.StartupRegistration", exception.Message);
+        }
+    }
+
+    public async Task DismissStartupReminderAsync()
+    {
+        if (_preferences.StartupReminderDismissed)
+        {
+            return;
+        }
+
+        var previous = _preferences;
+        _preferences = previous with { StartupReminderDismissed = true };
+        OnPropertyChanged(nameof(ShowStartupReminder));
+        if (!await SavePreferencesAsync())
+        {
+            _preferences = previous;
+            OnPropertyChanged(nameof(ShowStartupReminder));
+        }
+    }
+
     public async Task<bool> SaveInitialMappingsAsync()
     {
         if (!CanSaveSetup || IsCorruptStore)
@@ -357,17 +427,19 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    private async Task SavePreferencesAsync()
+    private async Task<bool> SavePreferencesAsync()
     {
         IsBusy = true;
         try
         {
             await _preferencesRepository.SaveAsync(_preferences);
             SetErrorMessage(null);
+            return true;
         }
         catch (Exception exception)
         {
             SetErrorMessage("Error.Preferences", exception.Message);
+            return false;
         }
         finally
         {

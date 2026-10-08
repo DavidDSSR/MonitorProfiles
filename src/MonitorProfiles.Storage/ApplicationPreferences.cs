@@ -13,7 +13,12 @@ public enum PreferencesRecoveryReason
     UnsupportedSchema
 }
 
-public sealed record ApplicationPreferences(int SchemaVersion, string ThemeName, string LanguageCode)
+public sealed record ApplicationPreferences(
+    int SchemaVersion,
+    string ThemeName,
+    string LanguageCode,
+    bool LaunchAtStartup = false,
+    bool StartupReminderDismissed = false)
 {
     public const int CurrentSchemaVersion = 1;
 
@@ -45,7 +50,9 @@ public sealed record ApplicationPreferences(int SchemaVersion, string ThemeName,
     public ApplicationPreferences Normalize() => new(
         CurrentSchemaVersion,
         EffectiveTheme.ToString(),
-        EffectiveLanguageCode);
+        EffectiveLanguageCode,
+        LaunchAtStartup,
+        StartupReminderDismissed);
 }
 
 public sealed record ApplicationPreferencesLoadResult(

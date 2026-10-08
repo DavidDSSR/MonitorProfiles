@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Ouvrir Monitor Profiles</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>Restaurer l’aperçu</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>Quitter</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>Voulez-vous démarrer Monitor Profiles avec Windows et le garder dans la zone de notification ?</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>Activer le démarrage</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>Pas maintenant</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Démarrer avec Windows</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>Impossible de modifier le démarrage de Windows.</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Supprimer le profil</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>Supprimer {0} ?</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Une erreur est survenue</value></data>

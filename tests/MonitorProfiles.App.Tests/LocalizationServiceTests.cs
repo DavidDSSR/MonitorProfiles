@@ -27,6 +27,40 @@ public sealed class LocalizationServiceTests
     }
 
     [Fact]
+    public void Every_supported_locale_contains_the_startup_reminder_strings()
+    {
+        var resourceManager = new ResourceManager("MonitorProfiles.App.Resources.Strings", typeof(LocalizationService).Assembly);
+        var requiredStartupKeys = new[]
+        {
+            "Startup.Reminder", "Startup.Enable", "Startup.Later", "Startup.Menu", "Error.StartupRegistration"
+        };
+
+        foreach (var language in LocalizationService.SupportedLanguages)
+        {
+            var culture = language.Code == "en"
+                ? CultureInfo.InvariantCulture
+                : CultureInfo.GetCultureInfo(language.Code);
+            var resourceSet = resourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false);
+
+            Assert.True(resourceSet is not null, $"No translated resource set was found for language '{language.Code}'.");
+            foreach (var key in requiredStartupKeys)
+            {
+                Assert.False(string.IsNullOrWhiteSpace(resourceSet!.GetString(key)), $"Missing {key} in {language.Code}.");
+            }
+        }
+    }
+
+    [Fact]
+    public void Startup_related_strings_are_in_the_required_resource_inventory()
+    {
+        Assert.Contains("Startup.Reminder", LocalizationService.RequiredResourceKeys);
+        Assert.Contains("Startup.Enable", LocalizationService.RequiredResourceKeys);
+        Assert.Contains("Startup.Later", LocalizationService.RequiredResourceKeys);
+        Assert.Contains("Startup.Menu", LocalizationService.RequiredResourceKeys);
+        Assert.Contains("Error.StartupRegistration", LocalizationService.RequiredResourceKeys);
+    }
+
+    [Fact]
     public void SetLanguage_updates_bound_text_and_notifies_open_views_and_tray()
     {
         var localization = new LocalizationService();

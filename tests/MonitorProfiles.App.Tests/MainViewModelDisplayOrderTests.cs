@@ -40,7 +40,8 @@ public sealed class MainViewModelDisplayOrderTests : IDisposable
             preferencesRepository,
             new ApplicationPreferencesLoadResult(ApplicationPreferences.Default, null),
             new FakeThemeService(),
-            new LocalizationService());
+            new LocalizationService(),
+            new FakeStartupRegistrationService());
 
         await viewModel.InitializeAsync();
 
@@ -65,6 +66,12 @@ public sealed class MainViewModelDisplayOrderTests : IDisposable
         public ThemePreference Preference => ThemePreference.System;
         public event EventHandler? ThemeChanged;
         public void Apply(ThemePreference preference) => ThemeChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private sealed class FakeStartupRegistrationService : IStartupRegistrationService
+    {
+        public bool IsEnabled => false;
+        public void SetEnabled(bool enabled) { }
     }
 
     private sealed class FakeDisplayService(IReadOnlyList<DisplayDescriptor> displays) : IDisplayService

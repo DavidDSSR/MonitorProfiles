@@ -21,6 +21,8 @@ public sealed class ApplicationPreferencesRepositoryTests : IDisposable
 
         Assert.Equal(ThemePreference.System, result.Preferences.EffectiveTheme);
         Assert.Equal("en", result.Preferences.EffectiveLanguageCode);
+        Assert.False(result.Preferences.LaunchAtStartup);
+        Assert.False(result.Preferences.StartupReminderDismissed);
         Assert.Null(result.RecoveryReason);
     }
 
@@ -31,13 +33,17 @@ public sealed class ApplicationPreferencesRepositoryTests : IDisposable
         var preferences = new ApplicationPreferences(
             ApplicationPreferences.CurrentSchemaVersion,
             "Dark",
-            "zh-Hans");
+            "zh-Hans",
+            LaunchAtStartup: true,
+            StartupReminderDismissed: true);
 
         await repository.SaveAsync(preferences);
         var result = await repository.LoadAsync();
 
         Assert.Equal(ThemePreference.Dark, result.Preferences.EffectiveTheme);
         Assert.Equal("zh-Hans", result.Preferences.EffectiveLanguageCode);
+        Assert.True(result.Preferences.LaunchAtStartup);
+        Assert.True(result.Preferences.StartupReminderDismissed);
         Assert.Null(result.RecoveryReason);
     }
 
@@ -52,6 +58,8 @@ public sealed class ApplicationPreferencesRepositoryTests : IDisposable
 
         Assert.Equal(ThemePreference.System, result.Preferences.EffectiveTheme);
         Assert.Equal("en", result.Preferences.EffectiveLanguageCode);
+        Assert.False(result.Preferences.LaunchAtStartup);
+        Assert.False(result.Preferences.StartupReminderDismissed);
         Assert.Null(result.RecoveryReason);
     }
 

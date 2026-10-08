@@ -80,6 +80,11 @@
   <data name="Tray.Open" xml:space="preserve"><value>Monitor Profiles を開く</value></data>
   <data name="Tray.Revert" xml:space="preserve"><value>プレビューを元に戻す</value></data>
   <data name="Tray.Exit" xml:space="preserve"><value>終了</value></data>
+  <data name="Startup.Reminder" xml:space="preserve"><value>Windows の起動時に Monitor Profiles をシステム トレイで起動しますか？</value></data>
+  <data name="Startup.Enable" xml:space="preserve"><value>スタートアップを有効にする</value></data>
+  <data name="Startup.Later" xml:space="preserve"><value>今はしない</value></data>
+  <data name="Startup.Menu" xml:space="preserve"><value>Windows と同時に起動</value></data>
+  <data name="Error.StartupRegistration" xml:space="preserve"><value>Windows のスタートアップ設定を更新できませんでした。</value></data>
   <data name="Dialog.DeleteTitle" xml:space="preserve"><value>プロファイルを削除</value></data>
   <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>{0} を削除しますか？</value></data>
   <data name="Dialog.ErrorTitle" xml:space="preserve"><value>エラーが発生しました</value></data>
