@@ -6,7 +6,7 @@
         Title="{loc:Translate App.Title}" Height="740" Width="1180" MinHeight="640" MinWidth="900"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource AppBackgroundBrush}"
         Foreground="{DynamicResource TextPrimaryBrush}" FontFamily="Segoe UI Variable Text, Segoe UI"
-        Closing="Window_Closing">
+        Closing="Window_Closing" Icon="/Resources/Brand/MonitorProfiles.ico">
     <Grid Margin="32,26">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,11 +23,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Border Width="44" Height="44" Background="{DynamicResource RaisedSurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="12" VerticalAlignment="Center">
-                <Grid Width="25" Height="21" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Border BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1.7" CornerRadius="3" Margin="0,0,0,5" />
-                    <Rectangle Width="15" Height="1.5" Fill="{DynamicResource AccentBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,2" />
-                    <Rectangle Width="1.5" Height="4" Fill="{DynamicResource AccentBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-2" />
-                </Grid>
+                <Image Width="29" Height="27" Source="{StaticResource MonitorProfilesLogo}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <StackPanel Grid.Column="1" Margin="15,0,18,0" VerticalAlignment="Center">
                 <TextBlock Text="{loc:Translate App.Title}" FontSize="22" FontWeight="SemiBold" />

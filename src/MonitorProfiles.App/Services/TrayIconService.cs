@@ -1,6 +1,7 @@
 using MonitorProfiles.App.ViewModels;
 using MonitorProfiles.App.Localization;
 using System.Drawing;
+using System.IO;
 using Forms = System.Windows.Forms;
 
 namespace MonitorProfiles.App.Services;
@@ -11,18 +12,25 @@ public sealed class TrayIconService : IDisposable
     private readonly MainViewModel _viewModel;
     private readonly Forms.NotifyIcon _notifyIcon;
     private readonly Forms.ContextMenuStrip _contextMenu;
+    private readonly Icon _trayIcon;
+    private readonly Stream _trayIconStream;
 
     public TrayIconService(MainWindow mainWindow, MainViewModel viewModel)
     {
         _mainWindow = mainWindow;
         _viewModel = viewModel;
         LocalizationService.Instance.LanguageChanged += Localization_LanguageChanged;
+        var iconResource = System.Windows.Application.GetResourceStream(new Uri(
+            "pack://application:,,,/MonitorProfiles.App;component/Resources/Brand/MonitorProfiles.ico",
+            UriKind.Absolute)) ?? throw new InvalidOperationException("The Monitor Profiles tray icon resource is missing.");
+        _trayIconStream = iconResource.Stream;
+        _trayIcon = new Icon(_trayIconStream);
         _contextMenu = new Forms.ContextMenuStrip();
         _contextMenu.Opening += (_, _) => RebuildMenu();
         _notifyIcon = new Forms.NotifyIcon
         {
             Text = "Monitor Profiles",
-            Icon = SystemIcons.Application,
+            Icon = _trayIcon,
             ContextMenuStrip = _contextMenu,
             Visible = true
         };
@@ -102,6 +110,8 @@ public sealed class TrayIconService : IDisposable
         LocalizationService.Instance.LanguageChanged -= Localization_LanguageChanged;
         _notifyIcon.Visible = false;
         _notifyIcon.Dispose();
+        _trayIcon.Dispose();
+        _trayIconStream.Dispose();
         _contextMenu.Dispose();
     }
 }

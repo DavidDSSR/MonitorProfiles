@@ -16,7 +16,7 @@ public sealed class WpfThemeAndLocalizationTests
     {
         RunOnSta(() =>
         {
-            var application = new Application();
+            var application = Application.Current ?? new Application();
             application.Resources.MergedDictionaries.Add(LoadTheme("Light"));
             using var themeService = new ThemeService(application);
 
@@ -62,6 +62,28 @@ public sealed class WpfThemeAndLocalizationTests
                 Assert.True(light.Contains(key), $"Light theme is missing {key}.");
                 Assert.True(dark.Contains(key), $"Dark theme is missing {key}.");
             }
+        });
+    }
+
+    [Fact]
+    public void Brand_logo_and_tray_icon_are_available_as_application_resources()
+    {
+        RunOnSta(() =>
+        {
+            _ = Application.Current ?? new Application();
+            var brand = new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/MonitorProfiles.App;component/Resources/Brand/Brand.xaml", UriKind.Absolute)
+            };
+
+            var logo = Assert.IsType<DrawingImage>(brand["MonitorProfilesLogo"]);
+            Assert.NotNull(logo.Drawing);
+
+            var icon = Application.GetResourceStream(new Uri(
+                "pack://application:,,,/MonitorProfiles.App;component/Resources/Brand/MonitorProfiles.ico",
+                UriKind.Absolute));
+            Assert.NotNull(icon);
+            Assert.True(icon!.Stream.Length > 0);
         });
     }
 

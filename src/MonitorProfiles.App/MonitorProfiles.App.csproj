@@ -13,6 +13,11 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Resources\Brand\MonitorProfiles.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Brand\MonitorProfiles.ico" />
+  </ItemGroup>
 
 </Project>
