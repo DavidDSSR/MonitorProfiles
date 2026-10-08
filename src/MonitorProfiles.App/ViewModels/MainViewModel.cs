@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using MonitorProfiles.App.Localization;
+using MonitorProfiles.App.Services;
 using MonitorProfiles.Core.Models;
 using MonitorProfiles.Core.Profiles;
 using MonitorProfiles.Core.Services;
@@ -13,37 +15,71 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private readonly IDisplayService _displayService;
     private readonly ProfileApplicationService _applicationService;
     private readonly ProfileRepository _repository;
+    private readonly ApplicationPreferencesRepository _preferencesRepository;
+    private readonly IThemeService _themeService;
+    private readonly LocalizationService _localization;
+    private ApplicationPreferences _preferences;
+    private readonly PreferencesRecoveryReason? _preferencesRecoveryReason;
     private readonly Dictionary<string, DisplayDescriptor> _descriptors = new(StringComparer.OrdinalIgnoreCase);
     private Dictionary<string, string> _displayMappings = new(StringComparer.OrdinalIgnoreCase);
-    private string _statusMessage = "Detectando pantallas…";
-    private string? _errorMessage;
+    private string _statusMessageKey = "Status.Detecting";
+    private object?[] _statusMessageArguments = [];
+    private string? _errorMessageKey;
+    private string? _technicalError;
+    private object?[] _errorMessageArguments = [];
     private bool _isBusy;
     private bool _isReady;
     private bool _isCorruptStore;
 
-    public MainViewModel(IDisplayService displayService, ProfileRepository repository)
+    public MainViewModel(
+        IDisplayService displayService,
+        ProfileRepository repository,
+        ApplicationPreferencesRepository preferencesRepository,
+        ApplicationPreferencesLoadResult preferencesResult,
+        IThemeService themeService,
+        LocalizationService localization)
     {
         _displayService = displayService;
         _applicationService = new ProfileApplicationService(displayService);
         _repository = repository;
+        _preferencesRepository = preferencesRepository;
+        _preferences = preferencesResult.Preferences;
+        _preferencesRecoveryReason = preferencesResult.RecoveryReason;
+        _themeService = themeService;
+        _localization = localization;
+        _localization.LanguageChanged += Localization_LanguageChanged;
     }
 
     public ObservableCollection<DisplayRowViewModel> Displays { get; } = [];
     public ObservableCollection<ProfileRowViewModel> Profiles { get; } = [];
+    public IReadOnlyList<LanguageOption> Languages => LocalizationService.SupportedLanguages;
+    public string SelectedLanguageCode => _localization.LanguageCode;
+    public ThemePreference SelectedTheme => _preferences.EffectiveTheme;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public string StatusMessage
     {
-        get => _statusMessage;
-        set => SetField(ref _statusMessage, value);
+        get => _localization.Get(_statusMessageKey, _statusMessageArguments);
     }
 
     public string? ErrorMessage
     {
-        get => _errorMessage;
-        private set => SetField(ref _errorMessage, value);
+        get
+        {
+            if (_errorMessageKey is null)
+            {
+                return null;
+            }
+
+            var message = _localization.Get(_errorMessageKey, _errorMessageArguments);
+            return string.IsNullOrWhiteSpace(_technicalError)
+                ? message
+                : $"{message}{Environment.NewLine}{_localization.Get("Error.TechnicalDetails", _technicalError)}";
+        }
     }
+
+    public bool HasErrorMessage => _errorMessageKey is not null;
 
     public bool IsBusy
     {
@@ -73,6 +109,30 @@ public sealed class MainViewModel : INotifyPropertyChanged
         Displays.All(row => !string.IsNullOrWhiteSpace(row.Alias)) &&
         Displays.Select(row => row.Alias).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 4;
 
+    public void SetStatusMessage(string key, params object?[] arguments)
+    {
+        _statusMessageKey = key;
+        _statusMessageArguments = arguments;
+        OnPropertyChanged(nameof(StatusMessage));
+    }
+
+    private void SetErrorMessage(string? key, string? technicalError = null, params object?[] arguments)
+    {
+        _errorMessageKey = key;
+        _errorMessageArguments = arguments;
+        _technicalError = technicalError;
+        OnPropertyChanged(nameof(ErrorMessage));
+        OnPropertyChanged(nameof(HasErrorMessage));
+    }
+
+    private void SetProfileError(string? error)
+    {
+        var details = error?.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries) ?? [];
+        var message = ProfileValidationMessageResolver.ResolveMessage(details);
+        var technicalDetails = message.ResourceKey == "Error.InvalidProfile" ? error : null;
+        SetErrorMessage(message.ResourceKey, technicalDetails, message.Arguments.ToArray());
+    }
+
     public async Task InitializeAsync()
     {
         IsBusy = true;
@@ -87,56 +147,69 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
             var document = await _repository.LoadAsync();
             Displays.Clear();
-            foreach (var display in _descriptors.Values.OrderBy(display => display.FriendlyName, StringComparer.CurrentCultureIgnoreCase))
+            var mappings = document?.DisplayMappings ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var row in BuildDisplayRows(_descriptors.Values, mappings))
             {
-                var alias = document?.DisplayMappings.FirstOrDefault(mapping =>
-                    string.Equals(mapping.Value, display.DisplayId, StringComparison.OrdinalIgnoreCase)).Key;
-                var row = new DisplayRowViewModel(display, alias);
-                row.PropertyChanged += (_, args) =>
-                {
-                    if (args.PropertyName == nameof(DisplayRowViewModel.Alias))
-                    {
-                        OnPropertyChanged(nameof(CanSaveSetup));
-                    }
-                };
-                Displays.Add(row);
+                AddDisplayRow(row);
             }
 
             if (document is null)
             {
                 IsReady = false;
-                StatusMessage = "Identifica tus pantallas para preparar los perfiles.";
+                SetStatusMessage("Status.SetupRequired");
             }
             else
             {
                 _displayMappings = new Dictionary<string, string>(document.DisplayMappings, StringComparer.OrdinalIgnoreCase);
                 RefreshProfiles(document.Profiles);
                 IsReady = Profiles.Count > 0;
-                StatusMessage = $"{_descriptors.Count} pantallas detectadas";
+                SetStatusMessage("Status.ScreensDetected", _descriptors.Count);
+            }
+
+            if (_preferencesRecoveryReason is not null)
+            {
+                SetErrorMessage("Status.PreferencesRecovered");
             }
         }
         catch (InvalidDataException exception)
         {
             IsCorruptStore = true;
-            ErrorMessage = exception.Message;
-            StatusMessage = "No se pudo leer la configuración guardada.";
+            SetErrorMessage("Error.ConfigMalformed", exception.Message);
+            SetStatusMessage("Error.ConfigMalformed");
         }
         catch (NotSupportedException exception)
         {
             IsCorruptStore = true;
-            ErrorMessage = exception.Message;
-            StatusMessage = "La configuración fue creada por una versión más reciente.";
+            SetErrorMessage("Error.ConfigFuture", exception.Message);
+            SetStatusMessage("Error.ConfigFuture");
         }
         catch (Exception exception)
         {
-            ErrorMessage = exception.Message;
-            StatusMessage = "No se pudieron detectar las pantallas.";
+            SetErrorMessage("Error.DisplayDetection", exception.Message);
+            SetStatusMessage("Error.DisplayDetection");
         }
         finally
         {
             IsBusy = false;
             OnPropertyChanged(nameof(CanSaveSetup));
         }
+    }
+
+    public async Task SetLanguageAsync(string? languageCode)
+    {
+        _localization.SetLanguage(languageCode);
+        _preferences = _preferences with { LanguageCode = _localization.LanguageCode };
+        OnPropertyChanged(nameof(SelectedLanguageCode));
+        RefreshProfiles(Profiles.Select(row => row.Profile).ToArray());
+        await SavePreferencesAsync();
+    }
+
+    public async Task SetThemeAsync(ThemePreference theme)
+    {
+        _themeService.Apply(theme);
+        _preferences = _preferences with { ThemeName = theme.ToString() };
+        OnPropertyChanged(nameof(SelectedTheme));
+        await SavePreferencesAsync();
     }
 
     public async Task<bool> SaveInitialMappingsAsync()
@@ -147,7 +220,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
 
         IsBusy = true;
-        ErrorMessage = null;
+        SetErrorMessage(null);
         try
         {
             _displayMappings = Displays.ToDictionary(row => row.Alias!, row => row.DeviceId, StringComparer.OrdinalIgnoreCase);
@@ -158,12 +231,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
                 _displayMappings));
             RefreshProfiles(profiles);
             IsReady = true;
-            StatusMessage = "Perfiles listos para usar.";
+            SetStatusMessage("Status.ProfilesReady");
             return true;
         }
         catch (Exception exception)
         {
-            ErrorMessage = exception.Message;
+            SetErrorMessage("Error.ProfileSave", exception.Message);
             return false;
         }
         finally
@@ -176,28 +249,26 @@ public sealed class MainViewModel : INotifyPropertyChanged
     {
         if (IsBusy)
         {
-            return ProfileApplicationResult.Failure("Ya hay una operación de pantalla en curso.");
+            return ProfileApplicationResult.Failure(_localization.Get("Status.OperationInProgress"));
         }
 
         IsBusy = true;
-        ErrorMessage = null;
-        StatusMessage = $"Aplicando {profile.Name}…";
+        SetErrorMessage(null);
+        SetStatusMessage("Status.ApplyingProfile", profile.Name);
         try
         {
             var result = await _applicationService.ApplySavedAsync(profile);
             if (!result.Succeeded)
             {
-                ErrorMessage = result.Error;
-                StatusMessage = result.RestorationSucceeded == false
-                    ? "Falló el perfil y no se pudo restaurar la configuración anterior."
-                    : "No se pudo aplicar el perfil.";
+                SetProfileError(result.Error);
+                SetStatusMessage(result.RestorationSucceeded == false ? "Status.RestoreFailed" : "Status.ApplyFailed");
                 return result;
             }
 
-            StatusMessage = $"Perfil {profile.Name} aplicado.";
+            SetStatusMessage("Status.ProfileApplied", profile.Name);
             if (result.Warnings.Count > 0)
             {
-                ErrorMessage = string.Join(Environment.NewLine, result.Warnings);
+                SetErrorMessage("Error.InvalidProfile", string.Join(Environment.NewLine, result.Warnings));
             }
 
             await RefreshDisplayStateAsync();
@@ -205,8 +276,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
         catch (Exception exception)
         {
-            ErrorMessage = exception.Message;
-            StatusMessage = "No se pudo aplicar el perfil.";
+            SetErrorMessage("Error.InvalidProfile", exception.Message);
+            SetStatusMessage("Status.ApplyFailed");
             return ProfileApplicationResult.Failure(exception.Message);
         }
         finally
@@ -226,14 +297,14 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
         var profiles = existing.Where(existingProfile => existingProfile.Id != profile.Id).Append(profile).ToArray();
         await PersistProfilesAsync(profiles);
-        StatusMessage = $"Perfil {profile.Name} guardado.";
+        SetStatusMessage("Status.ProfileSaved", profile.Name);
     }
 
     public async Task DeleteProfileAsync(DisplayProfile profile)
     {
         var profiles = Profiles.Select(row => row.Profile).Where(existing => existing.Id != profile.Id).ToArray();
         await PersistProfilesAsync(profiles);
-        StatusMessage = $"Perfil {profile.Name} eliminado.";
+        SetStatusMessage("Status.ProfileDeleted", profile.Name);
     }
 
     public void RefreshProfiles(IEnumerable<DisplayProfile> profiles)
@@ -258,16 +329,14 @@ public sealed class MainViewModel : INotifyPropertyChanged
             }
 
             Displays.Clear();
-            foreach (var display in _descriptors.Values.OrderBy(display => display.FriendlyName, StringComparer.CurrentCultureIgnoreCase))
+            foreach (var row in BuildDisplayRows(_descriptors.Values, _displayMappings))
             {
-                var alias = _displayMappings.FirstOrDefault(mapping =>
-                    string.Equals(mapping.Value, display.DisplayId, StringComparison.OrdinalIgnoreCase)).Key;
-                Displays.Add(new DisplayRowViewModel(display, alias));
+                AddDisplayRow(row);
             }
         }
         catch (Exception exception)
         {
-            ErrorMessage = exception.Message;
+            SetErrorMessage("Error.DisplayDetection", exception.Message);
         }
     }
 
@@ -288,6 +357,36 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    private async Task SavePreferencesAsync()
+    {
+        IsBusy = true;
+        try
+        {
+            await _preferencesRepository.SaveAsync(_preferences);
+            SetErrorMessage(null);
+        }
+        catch (Exception exception)
+        {
+            SetErrorMessage("Error.Preferences", exception.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private void Localization_LanguageChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(SelectedLanguageCode));
+        OnPropertyChanged(nameof(StatusMessage));
+        OnPropertyChanged(nameof(ErrorMessage));
+        foreach (var display in Displays)
+        {
+            display.RefreshLocalizedProperties();
+        }
+        RefreshProfiles(Profiles.Select(row => row.Profile).ToArray());
+    }
+
     private string BuildSummary(DisplayProfile profile)
     {
         var active = profile.Displays
@@ -295,13 +394,51 @@ public sealed class MainViewModel : INotifyPropertyChanged
             .Select(display =>
             {
                 var alias = _displayMappings.FirstOrDefault(mapping =>
-                    string.Equals(mapping.Value, display.DisplayId, StringComparison.OrdinalIgnoreCase)).Key ?? "Pantalla sin asignar";
+                    string.Equals(mapping.Value, display.DisplayId, StringComparison.OrdinalIgnoreCase)).Key ?? _localization.Get("Display.Unassigned");
                 var mode = display.Mode is { } value
                     ? $"{value.Width}×{value.Height} · {value.RefreshRate} Hz · {DisplayRowViewModel.OrientationLabel(value.Orientation)}"
-                    : "Modo sin asignar";
+                    : _localization.Get("Display.NoMode");
                 return $"{alias}  {mode}";
             });
         return string.Join("\n", active);
+    }
+
+    private static IEnumerable<DisplayRowViewModel> BuildDisplayRows(
+        IEnumerable<DisplayDescriptor> descriptors,
+        IReadOnlyDictionary<string, string> mappings)
+    {
+        return descriptors
+            .Select(display => new DisplayRowViewModel(
+                display,
+                mappings.FirstOrDefault(mapping =>
+                    string.Equals(mapping.Value, display.DisplayId, StringComparison.OrdinalIgnoreCase)).Key))
+            .OrderBy(row => GetAliasOrder(row.Alias))
+            .ThenBy(row => row.FriendlyName, StringComparer.CurrentCultureIgnoreCase);
+    }
+
+    private static int GetAliasOrder(string? alias)
+    {
+        for (var index = 0; index < DisplayRowViewModel.DefaultAliases.Count; index++)
+        {
+            if (string.Equals(DisplayRowViewModel.DefaultAliases[index], alias, StringComparison.OrdinalIgnoreCase))
+            {
+                return index;
+            }
+        }
+
+        return int.MaxValue;
+    }
+
+    private void AddDisplayRow(DisplayRowViewModel row)
+    {
+        row.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName == nameof(DisplayRowViewModel.Alias))
+            {
+                OnPropertyChanged(nameof(CanSaveSetup));
+            }
+        };
+        Displays.Add(row);
     }
 
     private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

@@ -1,23 +1,25 @@
 <Window x:Class="MonitorProfiles.App.Views.PreviewConfirmationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Confirmar configuración" Width="430" Height="260" ResizeMode="NoResize"
+        xmlns:loc="clr-namespace:MonitorProfiles.App.Localization"
+        Title="{loc:Translate Preview.Title}" Width="450" Height="280" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="True"
-        Background="#111821" Foreground="#E8EDF4" FontFamily="Segoe UI">
+        Background="{DynamicResource AppBackgroundBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+        FontFamily="Segoe UI Variable Text, Segoe UI">
     <Grid Margin="26">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="¿Se ve bien?" FontSize="23" FontWeight="SemiBold" />
+        <TextBlock Text="{loc:Translate Preview.Title}" FontSize="23" FontWeight="SemiBold" />
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
-            <TextBlock Text="La nueva configuración se revertirá automáticamente si no la confirmas." Foreground="#AAB5C4" TextWrapping="Wrap" FontSize="14" />
-            <TextBlock x:Name="CountdownText" Text="15 segundos" Foreground="#9DB0FF" FontSize="14" FontWeight="SemiBold" Margin="0,16,0,0" />
+            <TextBlock Text="{loc:Translate Preview.Description}" Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap" FontSize="14" />
+            <TextBlock x:Name="CountdownText" Foreground="{DynamicResource AccentBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,16,0,0" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Revertir" IsCancel="True" Click="Revert_Click" Background="#252E3A" Foreground="#E8EDF4" BorderBrush="#364252" Padding="16,9" Margin="0,0,8,0" />
-            <Button Content="Conservar cambios" IsDefault="True" Click="Keep_Click" Background="#5478EE" Foreground="White" BorderBrush="#5478EE" Padding="16,9" FontWeight="SemiBold" />
+            <Button Content="{loc:Translate Preview.Revert}" IsCancel="True" Click="Revert_Click" Margin="0,0,8,0" />
+            <Button Content="{loc:Translate Preview.Keep}" IsDefault="True" Click="Keep_Click" Style="{StaticResource PrimaryButton}" />
         </StackPanel>
     </Grid>
 </Window>

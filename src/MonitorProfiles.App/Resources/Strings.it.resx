@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Monitor Profiles</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>Ripristina il tuo spazio di lavoro con un tocco</value></data>
+  <data name="Status.Detecting" xml:space="preserve"><value>Rilevamento degli schermi…</value></data>
+  <data name="Status.SetupRequired" xml:space="preserve"><value>Identifica gli schermi per preparare i profili.</value></data>
+  <data name="Status.ScreensDetected" xml:space="preserve"><value>Rilevati {0} schermi</value></data>
+  <data name="Status.ProfilesReady" xml:space="preserve"><value>I tuoi profili sono pronti.</value></data>
+  <data name="Status.Restored" xml:space="preserve"><value>La configurazione precedente è stata ripristinata.</value></data>
+  <data name="Status.ApplyingProfile" xml:space="preserve"><value>Applicazione di {0}…</value></data>
+  <data name="Status.ProfileApplied" xml:space="preserve"><value>{0} applicato.</value></data>
+  <data name="Status.ApplyFailed" xml:space="preserve"><value>Impossibile applicare il profilo.</value></data>
+  <data name="Status.RestoreFailed" xml:space="preserve"><value>Il profilo non è riuscito e non è stato possibile ripristinare la configurazione precedente.</value></data>
+  <data name="Status.OperationInProgress" xml:space="preserve"><value>È già in corso un’operazione sugli schermi.</value></data>
+  <data name="Status.ProfileSaved" xml:space="preserve"><value>{0} salvato.</value></data>
+  <data name="Status.ProfileDeleted" xml:space="preserve"><value>{0} eliminato.</value></data>
+  <data name="Status.PreferencesRecovered" xml:space="preserve"><value>Aspetto e lingua sono stati ripristinati ai valori predefiniti.</value></data>
+  <data name="Status.ActiveCount" xml:space="preserve"><value>{0} di {1} attivi</value></data>
+  <data name="Error.ConfigMalformed" xml:space="preserve"><value>Il file dei profili salvato non è leggibile ed è stato lasciato invariato.</value></data>
+  <data name="Error.ConfigFuture" xml:space="preserve"><value>Il file dei profili è stato creato da una versione più recente e resta invariato.</value></data>
+  <data name="Error.DisplayDetection" xml:space="preserve"><value>Impossibile rilevare gli schermi.</value></data>
+  <data name="Error.DisplayUnavailable" xml:space="preserve"><value>Lo schermo assegnato “{0}” non è connesso.</value></data>
+  <data name="Error.ProfileModeUnavailable" xml:space="preserve"><value>La modalità richiesta non è disponibile su “{0}”.</value></data>
+  <data name="Error.InvalidProfile" xml:space="preserve"><value>Questo profilo non è valido.</value></data>
+  <data name="Error.ProfileSave" xml:space="preserve"><value>Impossibile salvare il profilo.</value></data>
+  <data name="Error.Preferences" xml:space="preserve"><value>Impossibile salvare le preferenze di aspetto e lingua.</value></data>
+  <data name="Error.TechnicalDetails" xml:space="preserve"><value>Dettagli tecnici: {0}</value></data>
+  <data name="Setup.Title" xml:space="preserve"><value>Identifica i tuoi schermi</value></data>
+  <data name="Setup.Description" xml:space="preserve"><value>Assegna un nome a ogni schermo per usarlo nei tuoi profili.</value></data>
+  <data name="Setup.Save" xml:space="preserve"><value>Salva e crea i profili</value></data>
+  <data name="Common.Identify" xml:space="preserve"><value>Identifica</value></data>
+  <data name="Profiles.Title" xml:space="preserve"><value>I tuoi profili</value></data>
+  <data name="Profiles.Subtitle" xml:space="preserve"><value>Cambia la configurazione degli schermi con un tocco.</value></data>
+  <data name="Profiles.New" xml:space="preserve"><value>Nuovo profilo</value></data>
+  <data name="Profiles.Apply" xml:space="preserve"><value>Applica</value></data>
+  <data name="Profiles.Edit" xml:space="preserve"><value>Modifica</value></data>
+  <data name="Profiles.Delete" xml:space="preserve"><value>Elimina</value></data>
+  <data name="Profiles.BuiltIn" xml:space="preserve"><value>INCLUSO</value></data>
+  <data name="Profiles.Custom" xml:space="preserve"><value>PERSONALIZZATO</value></data>
+  <data name="Displays.Title" xml:space="preserve"><value>Schermi connessi</value></data>
+  <data name="Display.Active" xml:space="preserve"><value>Acceso</value></data>
+  <data name="Display.Inactive" xml:space="preserve"><value>Spento</value></data>
+  <data name="Display.NoMode" xml:space="preserve"><value>Nessuna modalità attiva</value></data>
+  <data name="Display.Unassigned" xml:space="preserve"><value>Schermo non assegnato</value></data>
+  <data name="Theme.Menu" xml:space="preserve"><value>Aspetto</value></data>
+  <data name="Theme.System" xml:space="preserve"><value>Sistema</value></data>
+  <data name="Theme.Light" xml:space="preserve"><value>Chiaro</value></data>
+  <data name="Theme.Dark" xml:space="preserve"><value>Scuro</value></data>
+  <data name="Language.Menu" xml:space="preserve"><value>Lingua</value></data>
+  <data name="Editor.Title" xml:space="preserve"><value>Configura profilo</value></data>
+  <data name="Editor.Description" xml:space="preserve"><value>Scegli gli schermi attivi e le relative modalità.</value></data>
+  <data name="Editor.ProfileName" xml:space="preserve"><value>Nome profilo</value></data>
+  <data name="Editor.Screen" xml:space="preserve"><value>SCHERMO</value></data>
+  <data name="Editor.Width" xml:space="preserve"><value>LARGHEZZA</value></data>
+  <data name="Editor.Height" xml:space="preserve"><value>ALTEZZA</value></data>
+  <data name="Editor.Refresh" xml:space="preserve"><value>HZ</value></data>
+  <data name="Editor.Orientation" xml:space="preserve"><value>ORIENTAMENTO</value></data>
+  <data name="Editor.Role" xml:space="preserve"><value>RUOLO</value></data>
+  <data name="Editor.Primary" xml:space="preserve"><value>Principale</value></data>
+  <data name="Editor.DetectedModes" xml:space="preserve"><value>Modalità segnalate da Windows</value></data>
+  <data name="Editor.Landscape" xml:space="preserve"><value>Orizzontale</value></data>
+  <data name="Editor.Portrait" xml:space="preserve"><value>Verticale</value></data>
+  <data name="Editor.LandscapeFlipped" xml:space="preserve"><value>Orizzontale capovolto</value></data>
+  <data name="Editor.PortraitFlipped" xml:space="preserve"><value>Verticale capovolto</value></data>
+  <data name="Editor.Cancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="Editor.Preview" xml:space="preserve"><value>Prova le modifiche</value></data>
+  <data name="Editor.Save" xml:space="preserve"><value>Salva</value></data>
+  <data name="Editor.InvalidMode" xml:space="preserve"><value>La risoluzione o la frequenza di {0} non è valida.</value></data>
+  <data name="Editor.NameRequired" xml:space="preserve"><value>Inserisci un nome per il profilo.</value></data>
+  <data name="Editor.DuplicateName" xml:space="preserve"><value>Esiste già un profilo con questo nome.</value></data>
+  <data name="Preview.Title" xml:space="preserve"><value>Mantenere questa configurazione?</value></data>
+  <data name="Preview.Description" xml:space="preserve"><value>La configurazione precedente verrà ripristinata automaticamente se non confermi.</value></data>
+  <data name="Preview.Countdown" xml:space="preserve"><value>Ripristino tra {0} secondi</value></data>
+  <data name="Preview.Keep" xml:space="preserve"><value>Mantieni le modifiche</value></data>
+  <data name="Preview.Revert" xml:space="preserve"><value>Ripristina</value></data>
+  <data name="Tray.Open" xml:space="preserve"><value>Apri Monitor Profiles</value></data>
+  <data name="Tray.Revert" xml:space="preserve"><value>Ripristina anteprima</value></data>
+  <data name="Tray.Exit" xml:space="preserve"><value>Esci</value></data>
+  <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Elimina profilo</value></data>
+  <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>Eliminare {0}?</value></data>
+  <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Si è verificato un errore</value></data>
+  <data name="Dialog.RevertTitle" xml:space="preserve"><value>Impossibile ripristinare la configurazione precedente</value></data>
+  <data name="Identify.OffTitle" xml:space="preserve"><value>Schermo spento</value></data>
+  <data name="Identify.OffDetail" xml:space="preserve"><value>{0} è spento in Windows. Assegnalo in base al modello oppure accendilo temporaneamente per identificarlo.</value></data>
+</root>

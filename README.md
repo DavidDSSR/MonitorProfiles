@@ -15,7 +15,13 @@ dotnet run --project src/MonitorProfiles.App/MonitorProfiles.App.csproj
 
 La primera vez, asigna los nombres Monitor 1–4 a las pantallas detectadas. Las pantallas encendidas pueden mostrar un marcador temporal con **Identificar**. Al guardar la asignación, se crean Trabajo, Competitivo e Historia. Los perfiles quedan guardados en `%LocalAppData%\MonitorProfileController\profiles.json` y la app permanece accesible desde la bandeja del sistema al cerrar la ventana.
 
+La interfaz comienza en inglés y permite cambiar a español, francés, italiano, japonés, alemán o chino simplificado. El tema puede seguir a Windows o fijarse en claro u oscuro. Estas preferencias se guardan por usuario en `%LocalAppData%\MonitorProfileController\preferences.json`.
+
 Los perfiles guardados se aplican con un clic. Para probar cambios sin guardar, usa **Probar cambios**; la configuración previa se restaura automáticamente si no se confirma en 15 segundos.
+
+## Apariencia e idiomas
+
+La aplicación ofrece los temas **Sistema**, **Claro** y **Oscuro**. También puedes elegir English, Español, Français, Italiano, 日本語, Deutsch o 简体中文 desde el selector del encabezado. Las preferencias se guardan por usuario en `%LocalAppData%\MonitorProfileController\preferences.json`. Los nombres de los tres perfiles incluidos y los nombres personalizados se mantienen tal como fueron guardados.
 
 ## Pruebas
 

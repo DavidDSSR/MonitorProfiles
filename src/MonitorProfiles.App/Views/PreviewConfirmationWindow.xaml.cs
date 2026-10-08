@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Threading;
+using MonitorProfiles.App.Localization;
 
 namespace MonitorProfiles.App.Views;
 
@@ -16,7 +17,12 @@ public partial class PreviewConfirmationWindow : Window
         _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _timer.Tick += Timer_Tick;
         _timer.Start();
-        Closed += (_, _) => _timer.Stop();
+        LocalizationService.Instance.LanguageChanged += Localization_LanguageChanged;
+        Closed += (_, _) =>
+        {
+            _timer.Stop();
+            LocalizationService.Instance.LanguageChanged -= Localization_LanguageChanged;
+        };
     }
 
     private void Timer_Tick(object? sender, EventArgs e)
@@ -35,6 +41,8 @@ public partial class PreviewConfirmationWindow : Window
 
     private void Revert_Click(object sender, RoutedEventArgs e) => DialogResult = false;
 
+    private void Localization_LanguageChanged(object? sender, EventArgs e) => UpdateCountdown();
+
     public void RequestRevert()
     {
         if (Dispatcher.CheckAccess())
@@ -47,5 +55,6 @@ public partial class PreviewConfirmationWindow : Window
         }
     }
 
-    private void UpdateCountdown() => CountdownText.Text = $"Se revertirá en {_secondsRemaining} segundos";
+    private void UpdateCountdown() => CountdownText.Text =
+        LocalizationService.Instance.Get("Preview.Countdown", _secondsRemaining);
 }

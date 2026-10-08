@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Monitor Profiles</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>One tap to reset your workspace</value></data>
+  <data name="Status.Detecting" xml:space="preserve"><value>Detecting displays…</value></data>
+  <data name="Status.SetupRequired" xml:space="preserve"><value>Identify your displays to prepare profiles.</value></data>
+  <data name="Status.ScreensDetected" xml:space="preserve"><value>{0} displays detected</value></data>
+  <data name="Status.ProfilesReady" xml:space="preserve"><value>Your profiles are ready.</value></data>
+  <data name="Status.Restored" xml:space="preserve"><value>The previous display setup was restored.</value></data>
+  <data name="Status.ApplyingProfile" xml:space="preserve"><value>Applying {0}…</value></data>
+  <data name="Status.ProfileApplied" xml:space="preserve"><value>{0} applied.</value></data>
+  <data name="Status.ApplyFailed" xml:space="preserve"><value>The profile could not be applied.</value></data>
+  <data name="Status.RestoreFailed" xml:space="preserve"><value>The profile failed and the previous display setup could not be restored.</value></data>
+  <data name="Status.OperationInProgress" xml:space="preserve"><value>A display operation is already in progress.</value></data>
+  <data name="Status.ProfileSaved" xml:space="preserve"><value>{0} saved.</value></data>
+  <data name="Status.ProfileDeleted" xml:space="preserve"><value>{0} deleted.</value></data>
+  <data name="Status.PreferencesRecovered" xml:space="preserve"><value>Appearance and language were reset to defaults.</value></data>
+  <data name="Status.ActiveCount" xml:space="preserve"><value>{0} of {1} active</value></data>
+  <data name="Error.ConfigMalformed" xml:space="preserve"><value>The saved profile file could not be read and was left unchanged.</value></data>
+  <data name="Error.ConfigFuture" xml:space="preserve"><value>This profile file was created by a newer app version and was left unchanged.</value></data>
+  <data name="Error.DisplayDetection" xml:space="preserve"><value>Displays could not be detected.</value></data>
+  <data name="Error.DisplayUnavailable" xml:space="preserve"><value>The assigned display “{0}” is not connected.</value></data>
+  <data name="Error.ProfileModeUnavailable" xml:space="preserve"><value>The requested mode is unavailable on “{0}”.</value></data>
+  <data name="Error.InvalidProfile" xml:space="preserve"><value>This profile is not valid.</value></data>
+  <data name="Error.ProfileSave" xml:space="preserve"><value>The profile could not be saved.</value></data>
+  <data name="Error.Preferences" xml:space="preserve"><value>Appearance and language preferences could not be saved.</value></data>
+  <data name="Error.TechnicalDetails" xml:space="preserve"><value>Technical details: {0}</value></data>
+  <data name="Setup.Title" xml:space="preserve"><value>Identify your displays</value></data>
+  <data name="Setup.Description" xml:space="preserve"><value>Assign a name to each display. You can use these names in your profiles.</value></data>
+  <data name="Setup.Save" xml:space="preserve"><value>Save and create profiles</value></data>
+  <data name="Common.Identify" xml:space="preserve"><value>Identify</value></data>
+  <data name="Profiles.Title" xml:space="preserve"><value>Your profiles</value></data>
+  <data name="Profiles.Subtitle" xml:space="preserve"><value>Switch your display setup with one click.</value></data>
+  <data name="Profiles.New" xml:space="preserve"><value>New profile</value></data>
+  <data name="Profiles.Apply" xml:space="preserve"><value>Apply</value></data>
+  <data name="Profiles.Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Profiles.Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Profiles.BuiltIn" xml:space="preserve"><value>INCLUDED</value></data>
+  <data name="Profiles.Custom" xml:space="preserve"><value>CUSTOM</value></data>
+  <data name="Displays.Title" xml:space="preserve"><value>Connected displays</value></data>
+  <data name="Display.Active" xml:space="preserve"><value>On</value></data>
+  <data name="Display.Inactive" xml:space="preserve"><value>Off</value></data>
+  <data name="Display.NoMode" xml:space="preserve"><value>No active mode</value></data>
+  <data name="Display.Unassigned" xml:space="preserve"><value>Unassigned display</value></data>
+  <data name="Theme.Menu" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Theme.System" xml:space="preserve"><value>System</value></data>
+  <data name="Theme.Light" xml:space="preserve"><value>Light</value></data>
+  <data name="Theme.Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Language.Menu" xml:space="preserve"><value>Language</value></data>
+  <data name="Editor.Title" xml:space="preserve"><value>Configure profile</value></data>
+  <data name="Editor.Description" xml:space="preserve"><value>Choose active displays and their modes.</value></data>
+  <data name="Editor.ProfileName" xml:space="preserve"><value>Profile name</value></data>
+  <data name="Editor.Screen" xml:space="preserve"><value>DISPLAY</value></data>
+  <data name="Editor.Width" xml:space="preserve"><value>WIDTH</value></data>
+  <data name="Editor.Height" xml:space="preserve"><value>HEIGHT</value></data>
+  <data name="Editor.Refresh" xml:space="preserve"><value>HZ</value></data>
+  <data name="Editor.Orientation" xml:space="preserve"><value>ORIENTATION</value></data>
+  <data name="Editor.Role" xml:space="preserve"><value>ROLE</value></data>
+  <data name="Editor.Primary" xml:space="preserve"><value>Primary</value></data>
+  <data name="Editor.DetectedModes" xml:space="preserve"><value>Modes reported by Windows</value></data>
+  <data name="Editor.Landscape" xml:space="preserve"><value>Landscape</value></data>
+  <data name="Editor.Portrait" xml:space="preserve"><value>Portrait</value></data>
+  <data name="Editor.LandscapeFlipped" xml:space="preserve"><value>Landscape flipped</value></data>
+  <data name="Editor.PortraitFlipped" xml:space="preserve"><value>Portrait flipped</value></data>
+  <data name="Editor.Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Editor.Preview" xml:space="preserve"><value>Preview changes</value></data>
+  <data name="Editor.Save" xml:space="preserve"><value>Save</value></data>
+  <data name="Editor.InvalidMode" xml:space="preserve"><value>The resolution or refresh rate for {0} is not valid.</value></data>
+  <data name="Editor.NameRequired" xml:space="preserve"><value>Enter a profile name.</value></data>
+  <data name="Editor.DuplicateName" xml:space="preserve"><value>A profile with this name already exists.</value></data>
+  <data name="Preview.Title" xml:space="preserve"><value>Keep this display setup?</value></data>
+  <data name="Preview.Description" xml:space="preserve"><value>Your previous display setup will be restored automatically if you do not confirm.</value></data>
+  <data name="Preview.Countdown" xml:space="preserve"><value>Reverting in {0} seconds</value></data>
+  <data name="Preview.Keep" xml:space="preserve"><value>Keep changes</value></data>
+  <data name="Preview.Revert" xml:space="preserve"><value>Revert</value></data>
+  <data name="Tray.Open" xml:space="preserve"><value>Open Monitor Profiles</value></data>
+  <data name="Tray.Revert" xml:space="preserve"><value>Revert preview</value></data>
+  <data name="Tray.Exit" xml:space="preserve"><value>Exit</value></data>
+  <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Delete profile</value></data>
+  <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>Delete {0}?</value></data>
+  <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Something went wrong</value></data>
+  <data name="Dialog.RevertTitle" xml:space="preserve"><value>Could not restore the previous setup</value></data>
+  <data name="Identify.OffTitle" xml:space="preserve"><value>Display is off</value></data>
+  <data name="Identify.OffDetail" xml:space="preserve"><value>{0} is off in Windows. Assign it by its model name, or turn it on temporarily to identify it.</value></data>
+</root>

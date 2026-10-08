@@ -2,10 +2,12 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using MonitorProfiles.App.Localization;
 using MonitorProfiles.App.ViewModels;
 using MonitorProfiles.App.Views;
 using MonitorProfiles.Core.Models;
 using MonitorProfiles.Core.Services;
+using MonitorProfiles.Storage;
 using Forms = System.Windows.Forms;
 
 namespace MonitorProfiles.App;
@@ -65,6 +67,23 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void LanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ComboBox { SelectedValue: string languageCode } &&
+            !string.Equals(languageCode, _viewModel.SelectedLanguageCode, StringComparison.OrdinalIgnoreCase))
+        {
+            await _viewModel.SetLanguageAsync(languageCode);
+        }
+    }
+
+    private async void ThemeSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ComboBox { SelectedValue: ThemePreference theme } && theme != _viewModel.SelectedTheme)
+        {
+            await _viewModel.SetThemeAsync(theme);
+        }
+    }
+
     private void UpdatePanels()
     {
         IsEnabled = !_viewModel.IsBusy;
@@ -94,8 +113,8 @@ public partial class MainWindow : Window
         if (screen is null)
         {
             System.Windows.MessageBox.Show(this,
-                $"{row.FriendlyName} está apagada en Windows. Asígnala por su nombre o actívala temporalmente para identificarla.",
-                "Pantalla apagada",
+                LocalizationService.Instance.Get("Identify.OffDetail", row.FriendlyName),
+                LocalizationService.Instance.Get("Identify.OffTitle"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
             return;
@@ -107,7 +126,7 @@ public partial class MainWindow : Window
             ResizeMode = ResizeMode.NoResize,
             ShowInTaskbar = false,
             Topmost = true,
-            Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(235, 13, 17, 23)),
+            Background = (System.Windows.Media.Brush)Application.Current.Resources["RaisedSurfaceBrush"],
             Width = 330,
             Height = 190,
             Left = screen.Bounds.Left + (screen.Bounds.Width - 330) / 2,
@@ -120,17 +139,17 @@ public partial class MainWindow : Window
                 {
                     new TextBlock
                     {
-                        Text = row.Alias ?? "Pantalla",
+                        Text = row.Alias ?? LocalizationService.Instance.Get("Display.Unassigned"),
                         FontSize = 22,
                         FontWeight = FontWeights.SemiBold,
-                        Foreground = System.Windows.Media.Brushes.White,
+                        Foreground = (System.Windows.Media.Brush)Application.Current.Resources["TextPrimaryBrush"],
                         HorizontalAlignment = System.Windows.HorizontalAlignment.Center
                     },
                     new TextBlock
                     {
                         Text = row.FriendlyName,
                         FontSize = 13,
-                        Foreground = System.Windows.Media.Brushes.LightGray,
+                        Foreground = (System.Windows.Media.Brush)Application.Current.Resources["TextSecondaryBrush"],
                         Margin = new Thickness(0, 8, 0, 0),
                         HorizontalAlignment = System.Windows.HorizontalAlignment.Center
                     }
@@ -174,8 +193,8 @@ public partial class MainWindow : Window
         }
 
         var answer = System.Windows.MessageBox.Show(this,
-            $"¿Eliminar el perfil {row.Name}?",
-            "Eliminar perfil",
+            LocalizationService.Instance.Get("Dialog.DeleteConfirm", row.Name),
+            LocalizationService.Instance.Get("Dialog.DeleteTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         if (answer == MessageBoxResult.Yes)
@@ -186,7 +205,7 @@ public partial class MainWindow : Window
             }
             catch (Exception exception)
             {
-                System.Windows.MessageBox.Show(this, exception.Message, "No se pudo eliminar el perfil", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError("Error.InvalidProfile", exception.Message);
             }
         }
     }
@@ -211,7 +230,13 @@ public partial class MainWindow : Window
         }
         catch (Exception exception)
         {
-            System.Windows.MessageBox.Show(this, exception.Message, "Revisa el perfil", MessageBoxButton.OK, MessageBoxImage.Warning);
+            var validationMessage = ProfileValidationMessageResolver.ResolveMessage(
+                exception.Message.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries));
+            ShowError(
+                validationMessage.ResourceKey,
+                validationMessage.ResourceKey == "Error.InvalidProfile" ? exception.Message : null,
+                MessageBoxImage.Warning,
+                validationMessage.Arguments.ToArray());
         }
     }
 
@@ -224,7 +249,7 @@ public partial class MainWindow : Window
         }
         catch (Exception exception)
         {
-            System.Windows.MessageBox.Show(this, exception.Message, "No se pudo iniciar la prueba", MessageBoxButton.OK, MessageBoxImage.Error);
+            ShowError("Error.DisplayDetection", exception.Message);
             return;
         }
 
@@ -255,7 +280,7 @@ public partial class MainWindow : Window
             }
             catch (Exception exception)
             {
-                System.Windows.MessageBox.Show(this, exception.Message, "No se pudo guardar el perfil", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError("Error.ProfileSave", exception.Message);
             }
         }
 
@@ -263,16 +288,32 @@ public partial class MainWindow : Window
         {
             await _displayService.RestoreConfigurationAsync(snapshot);
             await _viewModel.RefreshDisplayStateAsync();
-            _viewModel.StatusMessage = "Se restauró la configuración anterior.";
+            _viewModel.SetStatusMessage("Status.Restored");
         }
         catch (Exception exception)
         {
-            System.Windows.MessageBox.Show(this,
-                $"No se pudo restaurar la configuración anterior: {exception.Message}",
-                "Error al revertir",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            ShowError("Dialog.RevertTitle", exception.Message);
         }
+    }
+
+    private void ShowError(
+        string messageKey,
+        string? detail,
+        MessageBoxImage image = MessageBoxImage.Error,
+        params object?[] arguments)
+    {
+        var message = LocalizationService.Instance.Get(messageKey, arguments);
+        if (!string.IsNullOrWhiteSpace(detail))
+        {
+            message = $"{message}{Environment.NewLine}{LocalizationService.Instance.Get("Error.TechnicalDetails", detail)}";
+        }
+
+        System.Windows.MessageBox.Show(
+            this,
+            message,
+            LocalizationService.Instance.Get("Dialog.ErrorTitle"),
+            MessageBoxButton.OK,
+            image);
     }
 
     private void Window_Closing(object? sender, CancelEventArgs e)

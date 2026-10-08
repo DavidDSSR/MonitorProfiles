@@ -1,4 +1,5 @@
 using MonitorProfiles.Core.Models;
+using MonitorProfiles.App.Localization;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -20,10 +21,10 @@ public sealed class DisplayRowViewModel : INotifyPropertyChanged
     public DisplayDescriptor Descriptor { get; }
     public string FriendlyName => Descriptor.FriendlyName;
     public string DeviceId => Descriptor.DisplayId;
-    public string State => Descriptor.IsActive ? "Encendida" : "Apagada";
+    public string State => LocalizationService.Instance.Get(Descriptor.IsActive ? "Display.Active" : "Display.Inactive");
     public string ModeSummary => Descriptor.CurrentMode is { } mode
         ? $"{mode.Width}×{mode.Height} · {mode.RefreshRate} Hz · {OrientationLabel(mode.Orientation)}"
-        : "Sin modo activo";
+        : LocalizationService.Instance.Get("Display.NoMode");
     public IReadOnlyList<string> AliasOptions => DefaultAliases;
     public string? Alias
     {
@@ -42,12 +43,18 @@ public sealed class DisplayRowViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public void RefreshLocalizedProperties()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModeSummary)));
+    }
+
     internal static string OrientationLabel(DisplayOrientation orientation) => orientation switch
     {
-        DisplayOrientation.Landscape => "Horizontal",
-        DisplayOrientation.Portrait => "Vertical",
-        DisplayOrientation.LandscapeFlipped => "Horizontal volteado",
-        DisplayOrientation.PortraitFlipped => "Vertical volteado",
-        _ => orientation.ToString()
+        DisplayOrientation.Landscape => LocalizationService.Instance.Get("Editor.Landscape"),
+        DisplayOrientation.Portrait => LocalizationService.Instance.Get("Editor.Portrait"),
+        DisplayOrientation.LandscapeFlipped => LocalizationService.Instance.Get("Editor.LandscapeFlipped"),
+        DisplayOrientation.PortraitFlipped => LocalizationService.Instance.Get("Editor.PortraitFlipped"),
+        _ => LocalizationService.Instance.Get("Editor.Landscape")
     };
 }

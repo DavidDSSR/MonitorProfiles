@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Monitor Profiles</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>一键恢复你的工作空间</value></data>
+  <data name="Status.Detecting" xml:space="preserve"><value>正在检测显示器…</value></data>
+  <data name="Status.SetupRequired" xml:space="preserve"><value>请识别显示器以设置配置文件。</value></data>
+  <data name="Status.ScreensDetected" xml:space="preserve"><value>检测到 {0} 台显示器</value></data>
+  <data name="Status.ProfilesReady" xml:space="preserve"><value>配置文件已准备就绪。</value></data>
+  <data name="Status.Restored" xml:space="preserve"><value>已恢复之前的显示设置。</value></data>
+  <data name="Status.ApplyingProfile" xml:space="preserve"><value>正在应用 {0}…</value></data>
+  <data name="Status.ProfileApplied" xml:space="preserve"><value>已应用 {0}。</value></data>
+  <data name="Status.ApplyFailed" xml:space="preserve"><value>无法应用此配置文件。</value></data>
+  <data name="Status.RestoreFailed" xml:space="preserve"><value>配置文件应用失败，且无法恢复之前的显示设置。</value></data>
+  <data name="Status.OperationInProgress" xml:space="preserve"><value>显示器操作正在进行中。</value></data>
+  <data name="Status.ProfileSaved" xml:space="preserve"><value>已保存 {0}。</value></data>
+  <data name="Status.ProfileDeleted" xml:space="preserve"><value>已删除 {0}。</value></data>
+  <data name="Status.PreferencesRecovered" xml:space="preserve"><value>外观和语言已重置为默认值。</value></data>
+  <data name="Status.ActiveCount" xml:space="preserve"><value>{1} 台中有 {0} 台已开启</value></data>
+  <data name="Error.ConfigMalformed" xml:space="preserve"><value>无法读取已保存的配置文件，文件未被更改。</value></data>
+  <data name="Error.ConfigFuture" xml:space="preserve"><value>此配置文件由更新版本创建，因此未作更改。</value></data>
+  <data name="Error.DisplayDetection" xml:space="preserve"><value>无法检测显示器。</value></data>
+  <data name="Error.DisplayUnavailable" xml:space="preserve"><value>已分配的显示器“{0}”未连接。</value></data>
+  <data name="Error.ProfileModeUnavailable" xml:space="preserve"><value>显示器“{0}”不支持请求的模式。</value></data>
+  <data name="Error.InvalidProfile" xml:space="preserve"><value>此配置文件无效。</value></data>
+  <data name="Error.ProfileSave" xml:space="preserve"><value>无法保存配置文件。</value></data>
+  <data name="Error.Preferences" xml:space="preserve"><value>无法保存外观和语言偏好设置。</value></data>
+  <data name="Error.TechnicalDetails" xml:space="preserve"><value>技术详情：{0}</value></data>
+  <data name="Setup.Title" xml:space="preserve"><value>识别显示器</value></data>
+  <data name="Setup.Description" xml:space="preserve"><value>为每台显示器指定名称，以便在配置文件中使用。</value></data>
+  <data name="Setup.Save" xml:space="preserve"><value>保存并创建配置文件</value></data>
+  <data name="Common.Identify" xml:space="preserve"><value>识别</value></data>
+  <data name="Profiles.Title" xml:space="preserve"><value>你的配置文件</value></data>
+  <data name="Profiles.Subtitle" xml:space="preserve"><value>一键切换显示器设置。</value></data>
+  <data name="Profiles.New" xml:space="preserve"><value>新建配置文件</value></data>
+  <data name="Profiles.Apply" xml:space="preserve"><value>应用</value></data>
+  <data name="Profiles.Edit" xml:space="preserve"><value>编辑</value></data>
+  <data name="Profiles.Delete" xml:space="preserve"><value>删除</value></data>
+  <data name="Profiles.BuiltIn" xml:space="preserve"><value>内置</value></data>
+  <data name="Profiles.Custom" xml:space="preserve"><value>自定义</value></data>
+  <data name="Displays.Title" xml:space="preserve"><value>已连接的显示器</value></data>
+  <data name="Display.Active" xml:space="preserve"><value>开启</value></data>
+  <data name="Display.Inactive" xml:space="preserve"><value>关闭</value></data>
+  <data name="Display.NoMode" xml:space="preserve"><value>没有活动模式</value></data>
+  <data name="Display.Unassigned" xml:space="preserve"><value>未分配的显示器</value></data>
+  <data name="Theme.Menu" xml:space="preserve"><value>外观</value></data>
+  <data name="Theme.System" xml:space="preserve"><value>跟随系统</value></data>
+  <data name="Theme.Light" xml:space="preserve"><value>浅色</value></data>
+  <data name="Theme.Dark" xml:space="preserve"><value>深色</value></data>
+  <data name="Language.Menu" xml:space="preserve"><value>语言</value></data>
+  <data name="Editor.Title" xml:space="preserve"><value>配置配置文件</value></data>
+  <data name="Editor.Description" xml:space="preserve"><value>选择启用的显示器及其显示模式。</value></data>
+  <data name="Editor.ProfileName" xml:space="preserve"><value>配置文件名称</value></data>
+  <data name="Editor.Screen" xml:space="preserve"><value>显示器</value></data>
+  <data name="Editor.Width" xml:space="preserve"><value>宽度</value></data>
+  <data name="Editor.Height" xml:space="preserve"><value>高度</value></data>
+  <data name="Editor.Refresh" xml:space="preserve"><value>赫兹</value></data>
+  <data name="Editor.Orientation" xml:space="preserve"><value>方向</value></data>
+  <data name="Editor.Role" xml:space="preserve"><value>角色</value></data>
+  <data name="Editor.Primary" xml:space="preserve"><value>主显示器</value></data>
+  <data name="Editor.DetectedModes" xml:space="preserve"><value>Windows 检测到的模式</value></data>
+  <data name="Editor.Landscape" xml:space="preserve"><value>横向</value></data>
+  <data name="Editor.Portrait" xml:space="preserve"><value>纵向</value></data>
+  <data name="Editor.LandscapeFlipped" xml:space="preserve"><value>横向翻转</value></data>
+  <data name="Editor.PortraitFlipped" xml:space="preserve"><value>纵向翻转</value></data>
+  <data name="Editor.Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="Editor.Preview" xml:space="preserve"><value>试用更改</value></data>
+  <data name="Editor.Save" xml:space="preserve"><value>保存</value></data>
+  <data name="Editor.InvalidMode" xml:space="preserve"><value>{0} 的分辨率或刷新率无效。</value></data>
+  <data name="Editor.NameRequired" xml:space="preserve"><value>请输入配置文件名称。</value></data>
+  <data name="Editor.DuplicateName" xml:space="preserve"><value>已存在同名配置文件。</value></data>
+  <data name="Preview.Title" xml:space="preserve"><value>保留此显示设置？</value></data>
+  <data name="Preview.Description" xml:space="preserve"><value>如果未确认，系统将自动恢复之前的显示设置。</value></data>
+  <data name="Preview.Countdown" xml:space="preserve"><value>{0} 秒后恢复</value></data>
+  <data name="Preview.Keep" xml:space="preserve"><value>保留更改</value></data>
+  <data name="Preview.Revert" xml:space="preserve"><value>恢复</value></data>
+  <data name="Tray.Open" xml:space="preserve"><value>打开 Monitor Profiles</value></data>
+  <data name="Tray.Revert" xml:space="preserve"><value>恢复预览</value></data>
+  <data name="Tray.Exit" xml:space="preserve"><value>退出</value></data>
+  <data name="Dialog.DeleteTitle" xml:space="preserve"><value>删除配置文件</value></data>
+  <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>删除 {0}？</value></data>
+  <data name="Dialog.ErrorTitle" xml:space="preserve"><value>发生错误</value></data>
+  <data name="Dialog.RevertTitle" xml:space="preserve"><value>无法恢复之前的显示设置</value></data>
+  <data name="Identify.OffTitle" xml:space="preserve"><value>显示器已关闭</value></data>
+  <data name="Identify.OffDetail" xml:space="preserve"><value>{0} 在 Windows 中已关闭。请根据型号分配，或暂时开启以进行识别。</value></data>
+</root>

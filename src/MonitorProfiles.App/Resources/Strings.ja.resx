@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Monitor Profiles</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>ワンクリックで作業環境を復元</value></data>
+  <data name="Status.Detecting" xml:space="preserve"><value>ディスプレイを検出しています…</value></data>
+  <data name="Status.SetupRequired" xml:space="preserve"><value>プロファイルを準備するため、ディスプレイを識別してください。</value></data>
+  <data name="Status.ScreensDetected" xml:space="preserve"><value>ディスプレイ {0} 台を検出</value></data>
+  <data name="Status.ProfilesReady" xml:space="preserve"><value>プロファイルを使用できます。</value></data>
+  <data name="Status.Restored" xml:space="preserve"><value>以前のディスプレイ設定を復元しました。</value></data>
+  <data name="Status.ApplyingProfile" xml:space="preserve"><value>{0} を適用中…</value></data>
+  <data name="Status.ProfileApplied" xml:space="preserve"><value>{0} を適用しました。</value></data>
+  <data name="Status.ApplyFailed" xml:space="preserve"><value>プロファイルを適用できませんでした。</value></data>
+  <data name="Status.RestoreFailed" xml:space="preserve"><value>プロファイルの適用に失敗し、以前のディスプレイ設定を復元できませんでした。</value></data>
+  <data name="Status.OperationInProgress" xml:space="preserve"><value>ディスプレイ操作を実行中です。</value></data>
+  <data name="Status.ProfileSaved" xml:space="preserve"><value>{0} を保存しました。</value></data>
+  <data name="Status.ProfileDeleted" xml:space="preserve"><value>{0} を削除しました。</value></data>
+  <data name="Status.PreferencesRecovered" xml:space="preserve"><value>外観と言語を既定値に戻しました。</value></data>
+  <data name="Status.ActiveCount" xml:space="preserve"><value>{1} 台中 {0} 台がオン</value></data>
+  <data name="Error.ConfigMalformed" xml:space="preserve"><value>保存されたプロファイルファイルを読み取れません。ファイルは変更していません。</value></data>
+  <data name="Error.ConfigFuture" xml:space="preserve"><value>このプロファイルファイルは新しいアプリのバージョンで作成されているため、変更していません。</value></data>
+  <data name="Error.DisplayDetection" xml:space="preserve"><value>ディスプレイを検出できませんでした。</value></data>
+  <data name="Error.DisplayUnavailable" xml:space="preserve"><value>割り当てられたディスプレイ「{0}」が接続されていません。</value></data>
+  <data name="Error.ProfileModeUnavailable" xml:space="preserve"><value>要求されたモードは「{0}」で使用できません。</value></data>
+  <data name="Error.InvalidProfile" xml:space="preserve"><value>このプロファイルは無効です。</value></data>
+  <data name="Error.ProfileSave" xml:space="preserve"><value>プロファイルを保存できませんでした。</value></data>
+  <data name="Error.Preferences" xml:space="preserve"><value>外観と言語の設定を保存できませんでした。</value></data>
+  <data name="Error.TechnicalDetails" xml:space="preserve"><value>技術情報: {0}</value></data>
+  <data name="Setup.Title" xml:space="preserve"><value>ディスプレイを識別</value></data>
+  <data name="Setup.Description" xml:space="preserve"><value>各ディスプレイに名前を付けて、プロファイルで選べるようにします。</value></data>
+  <data name="Setup.Save" xml:space="preserve"><value>保存してプロファイルを作成</value></data>
+  <data name="Common.Identify" xml:space="preserve"><value>識別</value></data>
+  <data name="Profiles.Title" xml:space="preserve"><value>プロファイル</value></data>
+  <data name="Profiles.Subtitle" xml:space="preserve"><value>ワンクリックでディスプレイ構成を切り替えます。</value></data>
+  <data name="Profiles.New" xml:space="preserve"><value>新しいプロファイル</value></data>
+  <data name="Profiles.Apply" xml:space="preserve"><value>適用</value></data>
+  <data name="Profiles.Edit" xml:space="preserve"><value>編集</value></data>
+  <data name="Profiles.Delete" xml:space="preserve"><value>削除</value></data>
+  <data name="Profiles.BuiltIn" xml:space="preserve"><value>付属</value></data>
+  <data name="Profiles.Custom" xml:space="preserve"><value>カスタム</value></data>
+  <data name="Displays.Title" xml:space="preserve"><value>接続済みディスプレイ</value></data>
+  <data name="Display.Active" xml:space="preserve"><value>オン</value></data>
+  <data name="Display.Inactive" xml:space="preserve"><value>オフ</value></data>
+  <data name="Display.NoMode" xml:space="preserve"><value>有効なモードなし</value></data>
+  <data name="Display.Unassigned" xml:space="preserve"><value>未割り当てのディスプレイ</value></data>
+  <data name="Theme.Menu" xml:space="preserve"><value>外観</value></data>
+  <data name="Theme.System" xml:space="preserve"><value>システム</value></data>
+  <data name="Theme.Light" xml:space="preserve"><value>ライト</value></data>
+  <data name="Theme.Dark" xml:space="preserve"><value>ダーク</value></data>
+  <data name="Language.Menu" xml:space="preserve"><value>言語</value></data>
+  <data name="Editor.Title" xml:space="preserve"><value>プロファイルを設定</value></data>
+  <data name="Editor.Description" xml:space="preserve"><value>使用するディスプレイとモードを選択します。</value></data>
+  <data name="Editor.ProfileName" xml:space="preserve"><value>プロファイル名</value></data>
+  <data name="Editor.Screen" xml:space="preserve"><value>ディスプレイ</value></data>
+  <data name="Editor.Width" xml:space="preserve"><value>幅</value></data>
+  <data name="Editor.Height" xml:space="preserve"><value>高さ</value></data>
+  <data name="Editor.Refresh" xml:space="preserve"><value>Hz</value></data>
+  <data name="Editor.Orientation" xml:space="preserve"><value>向き</value></data>
+  <data name="Editor.Role" xml:space="preserve"><value>役割</value></data>
+  <data name="Editor.Primary" xml:space="preserve"><value>メイン</value></data>
+  <data name="Editor.DetectedModes" xml:space="preserve"><value>Windows が検出したモード</value></data>
+  <data name="Editor.Landscape" xml:space="preserve"><value>横</value></data>
+  <data name="Editor.Portrait" xml:space="preserve"><value>縦</value></data>
+  <data name="Editor.LandscapeFlipped" xml:space="preserve"><value>横（反転）</value></data>
+  <data name="Editor.PortraitFlipped" xml:space="preserve"><value>縦（反転）</value></data>
+  <data name="Editor.Cancel" xml:space="preserve"><value>キャンセル</value></data>
+  <data name="Editor.Preview" xml:space="preserve"><value>変更を試す</value></data>
+  <data name="Editor.Save" xml:space="preserve"><value>保存</value></data>
+  <data name="Editor.InvalidMode" xml:space="preserve"><value>{0} の解像度またはリフレッシュレートが無効です。</value></data>
+  <data name="Editor.NameRequired" xml:space="preserve"><value>プロファイル名を入力してください。</value></data>
+  <data name="Editor.DuplicateName" xml:space="preserve"><value>この名前のプロファイルはすでにあります。</value></data>
+  <data name="Preview.Title" xml:space="preserve"><value>この設定を保持しますか？</value></data>
+  <data name="Preview.Description" xml:space="preserve"><value>確認しない場合、以前のディスプレイ設定に自動で戻ります。</value></data>
+  <data name="Preview.Countdown" xml:space="preserve"><value>{0} 秒後に元に戻ります</value></data>
+  <data name="Preview.Keep" xml:space="preserve"><value>変更を保持</value></data>
+  <data name="Preview.Revert" xml:space="preserve"><value>元に戻す</value></data>
+  <data name="Tray.Open" xml:space="preserve"><value>Monitor Profiles を開く</value></data>
+  <data name="Tray.Revert" xml:space="preserve"><value>プレビューを元に戻す</value></data>
+  <data name="Tray.Exit" xml:space="preserve"><value>終了</value></data>
+  <data name="Dialog.DeleteTitle" xml:space="preserve"><value>プロファイルを削除</value></data>
+  <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>{0} を削除しますか？</value></data>
+  <data name="Dialog.ErrorTitle" xml:space="preserve"><value>エラーが発生しました</value></data>
+  <data name="Dialog.RevertTitle" xml:space="preserve"><value>以前の設定に戻せませんでした</value></data>
+  <data name="Identify.OffTitle" xml:space="preserve"><value>ディスプレイはオフです</value></data>
+  <data name="Identify.OffDetail" xml:space="preserve"><value>{0} は Windows でオフになっています。モデル名で割り当てるか、一時的にオンにして識別してください。</value></data>
+</root>

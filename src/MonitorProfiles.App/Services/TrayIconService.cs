@@ -1,4 +1,5 @@
 using MonitorProfiles.App.ViewModels;
+using MonitorProfiles.App.Localization;
 using System.Drawing;
 using Forms = System.Windows.Forms;
 
@@ -15,6 +16,7 @@ public sealed class TrayIconService : IDisposable
     {
         _mainWindow = mainWindow;
         _viewModel = viewModel;
+        LocalizationService.Instance.LanguageChanged += Localization_LanguageChanged;
         _contextMenu = new Forms.ContextMenuStrip();
         _contextMenu.Opening += (_, _) => RebuildMenu();
         _notifyIcon = new Forms.NotifyIcon
@@ -31,7 +33,7 @@ public sealed class TrayIconService : IDisposable
     private void RebuildMenu()
     {
         _contextMenu.Items.Clear();
-        _contextMenu.Items.Add("Abrir Monitor Profiles", null, (_, _) => _mainWindow.ShowFromTray());
+        _contextMenu.Items.Add(LocalizationService.Instance.Get("Tray.Open"), null, (_, _) => _mainWindow.ShowFromTray());
 
         if (_viewModel.Profiles.Count > 0)
         {
@@ -50,22 +52,54 @@ public sealed class TrayIconService : IDisposable
             }
         }
 
+        var languageMenu = new Forms.ToolStripMenuItem(LocalizationService.Instance.Get("Language.Menu"));
+        foreach (var language in _viewModel.Languages)
+        {
+            var languageItem = new Forms.ToolStripMenuItem(language.DisplayName)
+            {
+                Checked = string.Equals(language.Code, _viewModel.SelectedLanguageCode, StringComparison.OrdinalIgnoreCase)
+            };
+            languageItem.Click += async (_, _) => await _viewModel.SetLanguageAsync(language.Code);
+            languageMenu.DropDownItems.Add(languageItem);
+        }
+        _contextMenu.Items.Add(languageMenu);
+
+        var themeMenu = new Forms.ToolStripMenuItem(LocalizationService.Instance.Get("Theme.Menu"));
+        foreach (var (theme, key) in new[]
+                 {
+                     (MonitorProfiles.Storage.ThemePreference.System, "Theme.System"),
+                     (MonitorProfiles.Storage.ThemePreference.Light, "Theme.Light"),
+                     (MonitorProfiles.Storage.ThemePreference.Dark, "Theme.Dark")
+                 })
+        {
+            var themeItem = new Forms.ToolStripMenuItem(LocalizationService.Instance.Get(key))
+            {
+                Checked = theme == _viewModel.SelectedTheme
+            };
+            themeItem.Click += async (_, _) => await _viewModel.SetThemeAsync(theme);
+            themeMenu.DropDownItems.Add(themeItem);
+        }
+        _contextMenu.Items.Add(themeMenu);
+
         if (_mainWindow.HasActivePreview)
         {
             _contextMenu.Items.Add(new Forms.ToolStripSeparator());
-            _contextMenu.Items.Add("Revertir prueba", null, (_, _) => _mainWindow.RevertActivePreview());
+            _contextMenu.Items.Add(LocalizationService.Instance.Get("Tray.Revert"), null, (_, _) => _mainWindow.RevertActivePreview());
         }
 
         _contextMenu.Items.Add(new Forms.ToolStripSeparator());
-        _contextMenu.Items.Add("Salir", null, (_, _) =>
+        _contextMenu.Items.Add(LocalizationService.Instance.Get("Tray.Exit"), null, (_, _) =>
         {
             _mainWindow.ExitApplication();
             System.Windows.Application.Current.Shutdown();
         });
     }
 
+    private void Localization_LanguageChanged(object? sender, EventArgs e) => RebuildMenu();
+
     public void Dispose()
     {
+        LocalizationService.Instance.LanguageChanged -= Localization_LanguageChanged;
         _notifyIcon.Visible = false;
         _notifyIcon.Dispose();
         _contextMenu.Dispose();

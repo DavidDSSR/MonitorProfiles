@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="App.Title" xml:space="preserve"><value>Monitor Profiles</value></data>
+  <data name="App.Tagline" xml:space="preserve"><value>Stelle deinen Arbeitsplatz mit einem Klick wieder her</value></data>
+  <data name="Status.Detecting" xml:space="preserve"><value>Bildschirme werden erkannt…</value></data>
+  <data name="Status.SetupRequired" xml:space="preserve"><value>Identifiziere deine Bildschirme, um Profile einzurichten.</value></data>
+  <data name="Status.ScreensDetected" xml:space="preserve"><value>{0} Bildschirme erkannt</value></data>
+  <data name="Status.ProfilesReady" xml:space="preserve"><value>Deine Profile sind bereit.</value></data>
+  <data name="Status.Restored" xml:space="preserve"><value>Die vorherige Anzeigeeinstellung wurde wiederhergestellt.</value></data>
+  <data name="Status.ApplyingProfile" xml:space="preserve"><value>{0} wird angewendet…</value></data>
+  <data name="Status.ProfileApplied" xml:space="preserve"><value>{0} angewendet.</value></data>
+  <data name="Status.ApplyFailed" xml:space="preserve"><value>Das Profil konnte nicht angewendet werden.</value></data>
+  <data name="Status.RestoreFailed" xml:space="preserve"><value>Das Profil ist fehlgeschlagen und die vorherige Anzeigeeinstellung konnte nicht wiederhergestellt werden.</value></data>
+  <data name="Status.OperationInProgress" xml:space="preserve"><value>Ein Bildschirmvorgang läuft bereits.</value></data>
+  <data name="Status.ProfileSaved" xml:space="preserve"><value>{0} gespeichert.</value></data>
+  <data name="Status.ProfileDeleted" xml:space="preserve"><value>{0} gelöscht.</value></data>
+  <data name="Status.PreferencesRecovered" xml:space="preserve"><value>Darstellung und Sprache wurden auf die Standardwerte zurückgesetzt.</value></data>
+  <data name="Status.ActiveCount" xml:space="preserve"><value>{0} von {1} aktiv</value></data>
+  <data name="Error.ConfigMalformed" xml:space="preserve"><value>Die gespeicherte Profildatei ist ungültig und wurde unverändert gelassen.</value></data>
+  <data name="Error.ConfigFuture" xml:space="preserve"><value>Diese Profildatei stammt aus einer neueren App-Version und wurde unverändert gelassen.</value></data>
+  <data name="Error.DisplayDetection" xml:space="preserve"><value>Bildschirme konnten nicht erkannt werden.</value></data>
+  <data name="Error.DisplayUnavailable" xml:space="preserve"><value>Der zugewiesene Bildschirm „{0}“ ist nicht verbunden.</value></data>
+  <data name="Error.ProfileModeUnavailable" xml:space="preserve"><value>Der angeforderte Modus ist auf „{0}“ nicht verfügbar.</value></data>
+  <data name="Error.InvalidProfile" xml:space="preserve"><value>Dieses Profil ist ungültig.</value></data>
+  <data name="Error.ProfileSave" xml:space="preserve"><value>Das Profil konnte nicht gespeichert werden.</value></data>
+  <data name="Error.Preferences" xml:space="preserve"><value>Darstellungs- und Spracheinstellungen konnten nicht gespeichert werden.</value></data>
+  <data name="Error.TechnicalDetails" xml:space="preserve"><value>Technische Details: {0}</value></data>
+  <data name="Setup.Title" xml:space="preserve"><value>Identifiziere deine Bildschirme</value></data>
+  <data name="Setup.Description" xml:space="preserve"><value>Weise jedem Bildschirm einen Namen zu, den du in deinen Profilen verwenden kannst.</value></data>
+  <data name="Setup.Save" xml:space="preserve"><value>Speichern und Profile erstellen</value></data>
+  <data name="Common.Identify" xml:space="preserve"><value>Identifizieren</value></data>
+  <data name="Profiles.Title" xml:space="preserve"><value>Deine Profile</value></data>
+  <data name="Profiles.Subtitle" xml:space="preserve"><value>Wechsle deine Bildschirmkonfiguration mit einem Klick.</value></data>
+  <data name="Profiles.New" xml:space="preserve"><value>Neues Profil</value></data>
+  <data name="Profiles.Apply" xml:space="preserve"><value>Anwenden</value></data>
+  <data name="Profiles.Edit" xml:space="preserve"><value>Bearbeiten</value></data>
+  <data name="Profiles.Delete" xml:space="preserve"><value>Löschen</value></data>
+  <data name="Profiles.BuiltIn" xml:space="preserve"><value>ENTHALTEN</value></data>
+  <data name="Profiles.Custom" xml:space="preserve"><value>BENUTZERDEFINIERT</value></data>
+  <data name="Displays.Title" xml:space="preserve"><value>Verbundene Bildschirme</value></data>
+  <data name="Display.Active" xml:space="preserve"><value>Ein</value></data>
+  <data name="Display.Inactive" xml:space="preserve"><value>Aus</value></data>
+  <data name="Display.NoMode" xml:space="preserve"><value>Kein aktiver Modus</value></data>
+  <data name="Display.Unassigned" xml:space="preserve"><value>Nicht zugewiesener Bildschirm</value></data>
+  <data name="Theme.Menu" xml:space="preserve"><value>Darstellung</value></data>
+  <data name="Theme.System" xml:space="preserve"><value>System</value></data>
+  <data name="Theme.Light" xml:space="preserve"><value>Hell</value></data>
+  <data name="Theme.Dark" xml:space="preserve"><value>Dunkel</value></data>
+  <data name="Language.Menu" xml:space="preserve"><value>Sprache</value></data>
+  <data name="Editor.Title" xml:space="preserve"><value>Profil konfigurieren</value></data>
+  <data name="Editor.Description" xml:space="preserve"><value>Wähle aktive Bildschirme und ihre Modi aus.</value></data>
+  <data name="Editor.ProfileName" xml:space="preserve"><value>Profilname</value></data>
+  <data name="Editor.Screen" xml:space="preserve"><value>BILDSCHIRM</value></data>
+  <data name="Editor.Width" xml:space="preserve"><value>BREITE</value></data>
+  <data name="Editor.Height" xml:space="preserve"><value>HÖHE</value></data>
+  <data name="Editor.Refresh" xml:space="preserve"><value>HZ</value></data>
+  <data name="Editor.Orientation" xml:space="preserve"><value>AUSRICHTUNG</value></data>
+  <data name="Editor.Role" xml:space="preserve"><value>ROLLE</value></data>
+  <data name="Editor.Primary" xml:space="preserve"><value>Primär</value></data>
+  <data name="Editor.DetectedModes" xml:space="preserve"><value>Von Windows erkannte Modi</value></data>
+  <data name="Editor.Landscape" xml:space="preserve"><value>Querformat</value></data>
+  <data name="Editor.Portrait" xml:space="preserve"><value>Hochformat</value></data>
+  <data name="Editor.LandscapeFlipped" xml:space="preserve"><value>Querformat (gedreht)</value></data>
+  <data name="Editor.PortraitFlipped" xml:space="preserve"><value>Hochformat (gedreht)</value></data>
+  <data name="Editor.Cancel" xml:space="preserve"><value>Abbrechen</value></data>
+  <data name="Editor.Preview" xml:space="preserve"><value>Änderungen testen</value></data>
+  <data name="Editor.Save" xml:space="preserve"><value>Speichern</value></data>
+  <data name="Editor.InvalidMode" xml:space="preserve"><value>Auflösung oder Bildwiederholrate für {0} ist ungültig.</value></data>
+  <data name="Editor.NameRequired" xml:space="preserve"><value>Gib einen Profilnamen ein.</value></data>
+  <data name="Editor.DuplicateName" xml:space="preserve"><value>Ein Profil mit diesem Namen ist bereits vorhanden.</value></data>
+  <data name="Preview.Title" xml:space="preserve"><value>Diese Anzeigeeinstellung beibehalten?</value></data>
+  <data name="Preview.Description" xml:space="preserve"><value>Wenn du nicht bestätigst, wird die vorherige Einstellung automatisch wiederhergestellt.</value></data>
+  <data name="Preview.Countdown" xml:space="preserve"><value>Wird in {0} Sekunden zurückgesetzt</value></data>
+  <data name="Preview.Keep" xml:space="preserve"><value>Änderungen beibehalten</value></data>
+  <data name="Preview.Revert" xml:space="preserve"><value>Zurücksetzen</value></data>
+  <data name="Tray.Open" xml:space="preserve"><value>Monitor Profiles öffnen</value></data>
+  <data name="Tray.Revert" xml:space="preserve"><value>Vorschau zurücksetzen</value></data>
+  <data name="Tray.Exit" xml:space="preserve"><value>Beenden</value></data>
+  <data name="Dialog.DeleteTitle" xml:space="preserve"><value>Profil löschen</value></data>
+  <data name="Dialog.DeleteConfirm" xml:space="preserve"><value>{0} löschen?</value></data>
+  <data name="Dialog.ErrorTitle" xml:space="preserve"><value>Ein Fehler ist aufgetreten</value></data>
+  <data name="Dialog.RevertTitle" xml:space="preserve"><value>Vorherige Einstellung konnte nicht wiederhergestellt werden</value></data>
+  <data name="Identify.OffTitle" xml:space="preserve"><value>Bildschirm ist ausgeschaltet</value></data>
+  <data name="Identify.OffDetail" xml:space="preserve"><value>{0} ist in Windows ausgeschaltet. Weise ihn anhand des Modells zu oder schalte ihn vorübergehend ein, um ihn zu identifizieren.</value></data>
+</root>

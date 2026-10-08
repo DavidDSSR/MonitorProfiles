@@ -1,4 +1,5 @@
 using System.Windows;
+using MonitorProfiles.App.Localization;
 using MonitorProfiles.App.ViewModels;
 using MonitorProfiles.Core.Models;
 
@@ -21,6 +22,13 @@ public partial class ProfileEditorWindow : Window
                 display,
                 assignments.GetValueOrDefault(display.DeviceId)))
             .ToArray();
+        Closed += (_, _) =>
+        {
+            foreach (var row in DisplayList.Items.Cast<ProfileEditorDisplayRow>())
+            {
+                row.Dispose();
+            }
+        };
     }
 
     public DisplayProfile? ResultProfile { get; private set; }
@@ -57,7 +65,8 @@ public partial class ProfileEditorWindow : Window
         }
         catch (Exception exception)
         {
-            System.Windows.MessageBox.Show(this, exception.Message, "Revisa el perfil", MessageBoxButton.OK, MessageBoxImage.Warning);
+            var message = $"{LocalizationService.Instance.Get("Error.InvalidProfile")}{Environment.NewLine}{LocalizationService.Instance.Get("Error.TechnicalDetails", exception.Message)}";
+            System.Windows.MessageBox.Show(this, message, LocalizationService.Instance.Get("Dialog.ErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

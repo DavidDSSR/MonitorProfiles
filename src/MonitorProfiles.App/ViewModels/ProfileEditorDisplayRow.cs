@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using MonitorProfiles.Core.Models;
+using MonitorProfiles.App.Localization;
 
 namespace MonitorProfiles.App.ViewModels;
 
@@ -20,14 +22,11 @@ public sealed class ProfileEditorDisplayRow
         var options = display.Descriptor.SupportedModes
             .Where(mode => mode.Width >= 800 && mode.Height >= 600)
             .Distinct()
-            .Select(mode => new ProfileEditorModeOption(mode, $"Detectado · {FormatMode(mode)}"))
+            .Select(mode => new ProfileEditorModeOption(mode))
             .ToList();
         if (!options.Any(option => option.Mode == initialMode))
         {
-            var source = existing?.Mode is not null
-                ? "Guardado"
-                : display.Descriptor.CurrentMode is not null ? "Actual" : "Manual";
-            options.Add(new ProfileEditorModeOption(initialMode, $"{source} · {FormatMode(initialMode)}"));
+            options.Add(new ProfileEditorModeOption(initialMode));
         }
 
         ModeOptions = options;
@@ -59,6 +58,14 @@ public sealed class ProfileEditorDisplayRow
         Orientation = option.Mode.Orientation;
     }
 
+    public void Dispose()
+    {
+        foreach (var option in ModeOptions)
+        {
+            option.Dispose();
+        }
+    }
+
     public DisplayAssignment ToAssignment()
     {
         if (!IsEnabled)
@@ -70,7 +77,7 @@ public sealed class ProfileEditorDisplayRow
             !int.TryParse(Height, out var height) || height is < 320 or > 16384 ||
             !int.TryParse(RefreshRate, out var refreshRate) || refreshRate is < 24 or > 1000)
         {
-            throw new InvalidOperationException($"La resolución o frecuencia de {Alias} no es válida.");
+            throw new InvalidOperationException(LocalizationService.Instance.Get("Editor.InvalidMode", Alias));
         }
 
         return new DisplayAssignment(
@@ -79,9 +86,6 @@ public sealed class ProfileEditorDisplayRow
             new DisplayMode(width, height, refreshRate, Orientation),
             IsPrimary);
     }
-
-    private static string FormatMode(DisplayMode mode) =>
-        $"{mode.Width}×{mode.Height} · {mode.RefreshRate} Hz · {DisplayRowViewModel.OrientationLabel(mode.Orientation)}";
 
     private static DisplayMode DefaultModeForAlias(string? alias) => alias switch
     {
@@ -92,4 +96,23 @@ public sealed class ProfileEditorDisplayRow
     };
 }
 
-public sealed record ProfileEditorModeOption(DisplayMode Mode, string Label);
+public sealed class ProfileEditorModeOption : INotifyPropertyChanged, IDisposable
+{
+    public ProfileEditorModeOption(DisplayMode mode)
+    {
+        Mode = mode;
+        LocalizationService.Instance.LanguageChanged += Localization_LanguageChanged;
+    }
+
+    public DisplayMode Mode { get; }
+
+    public string Label =>
+        $"{Mode.Width}×{Mode.Height} · {Mode.RefreshRate} Hz · {DisplayRowViewModel.OrientationLabel(Mode.Orientation)}";
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public void Dispose() => LocalizationService.Instance.LanguageChanged -= Localization_LanguageChanged;
+
+    private void Localization_LanguageChanged(object? sender, EventArgs e) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Label)));
+}
