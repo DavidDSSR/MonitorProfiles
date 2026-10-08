@@ -32,4 +32,18 @@ public static class DisplayModeConverter
         DisplayOrientation.PortraitFlipped => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(orientation), orientation, "Unknown display orientation.")
     };
+
+    public static (int Width, int Height) ToSourceDimensions(DisplayMode mode)
+    {
+        ArgumentNullException.ThrowIfNull(mode);
+        return mode.Orientation is DisplayOrientation.Portrait or DisplayOrientation.PortraitFlipped
+            ? (mode.Height, mode.Width)
+            : (mode.Width, mode.Height);
+    }
+
+    public static int ToWindowsScanLineOrdering(DisplayMode mode)
+    {
+        ArgumentNullException.ThrowIfNull(mode);
+        return 1; // DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE
+    }
 }

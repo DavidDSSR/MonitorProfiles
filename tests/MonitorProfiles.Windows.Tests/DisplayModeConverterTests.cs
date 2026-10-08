@@ -34,4 +34,29 @@ public sealed class DisplayModeConverterTests
     {
         Assert.Equal(expected, DisplayModeConverter.ToWindowsRotation(orientation));
     }
+
+    [Theory]
+    [InlineData(2560, 1440, DisplayOrientation.Landscape, 2560, 1440)]
+    [InlineData(1080, 1920, DisplayOrientation.PortraitFlipped, 1920, 1080)]
+    public void ToSourceDimensions_swaps_portrait_mode_dimensions(
+        int width,
+        int height,
+        DisplayOrientation orientation,
+        int expectedWidth,
+        int expectedHeight)
+    {
+        Assert.Equal(
+            (expectedWidth, expectedHeight),
+            DisplayModeConverter.ToSourceDimensions(new MonitorProfiles.Core.Models.DisplayMode(width, height, 60, orientation)));
+    }
+
+    [Theory]
+    [InlineData(DisplayOrientation.Landscape)]
+    [InlineData(DisplayOrientation.PortraitFlipped)]
+    public void ToWindowsScanLineOrdering_uses_progressive_scan_for_profile_modes(DisplayOrientation orientation)
+    {
+        var mode = new MonitorProfiles.Core.Models.DisplayMode(1920, 1080, 60, orientation);
+
+        Assert.Equal(1, DisplayModeConverter.ToWindowsScanLineOrdering(mode));
+    }
 }

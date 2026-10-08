@@ -33,9 +33,27 @@ public sealed class WindowsDisplayService : IDisplayService
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var configuration = BuildProfileConfiguration(profile, primaryDisplayId, cancellationToken);
+        ValidateProfileConfiguration(configuration);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        var applyResult = DisplayConfigNative.SetDisplayConfig(
+            (uint)configuration.Paths.Length,
+            configuration.Paths,
+            (uint)configuration.Modes.Length,
+            configuration.Modes,
+            SetApply | SetUseSuppliedDisplayConfig | SetSaveToDatabase);
+        ThrowForDisplayConfigError(applyResult, "apply the requested display profile");
+        return Task.CompletedTask;
+    }
+
+    private static RequestedDisplayConfiguration BuildProfileConfiguration(
+        DisplayProfile profile,
+        string primaryDisplayId,
+        CancellationToken cancellationToken)
+    {
         ArgumentNullException.ThrowIfNull(profile);
         ArgumentException.ThrowIfNullOrWhiteSpace(primaryDisplayId);
-
         var allPaths = QueryDisplayConfiguration(DisplayConfigNative.QueryAllPaths).Paths;
         var currentConfiguration = QueryDisplayConfiguration(DisplayConfigNative.QueryOnlyActivePaths);
         var currentPositions = GetCurrentPositions(currentConfiguration);
@@ -125,6 +143,7 @@ public sealed class WindowsDisplayService : IDisplayService
             }
 
             var sourceModeIndex = checked((uint)modeTable.Count);
+            var (sourceWidth, sourceHeight) = DisplayModeConverter.ToSourceDimensions(assignment.Mode);
             modeTable.Add(new DisplayConfigModeInfo
             {
                 InfoType = DisplayConfigNative.ModeInfoTypeSource,
@@ -134,8 +153,8 @@ public sealed class WindowsDisplayService : IDisplayService
                 {
                     SourceMode = new DisplayConfigSourceMode
                     {
-                        Width = checked((uint)assignment.Mode.Width),
-                        Height = checked((uint)assignment.Mode.Height),
+                        Width = checked((uint)sourceWidth),
+                        Height = checked((uint)sourceHeight),
                         PixelFormat = 4,
                         PositionX = position.X,
                         PositionY = position.Y
@@ -147,6 +166,7 @@ public sealed class WindowsDisplayService : IDisplayService
             path.SourceInfo.ModeInfoIndex = sourceModeIndex;
             path.TargetInfo.ModeInfoIndex = DisplayConfigNative.ModeIndexInvalid;
             path.TargetInfo.Rotation = DisplayModeConverter.ToWindowsRotation(assignment.Mode.Orientation);
+            path.TargetInfo.ScanLineOrdering = DisplayModeConverter.ToWindowsScanLineOrdering(assignment.Mode);
             path.TargetInfo.RefreshRate = new DisplayConfigRational
             {
                 Numerator = checked((uint)assignment.Mode.RefreshRate),
@@ -156,25 +176,18 @@ public sealed class WindowsDisplayService : IDisplayService
             horizontalPosition = checked(position.X + assignment.Mode.Width);
         }
 
-        var paths = selectedPaths.ToArray();
-        var modes = modeTable.ToArray();
+        return new RequestedDisplayConfiguration(selectedPaths.ToArray(), modeTable.ToArray());
+    }
+
+    private static void ValidateProfileConfiguration(RequestedDisplayConfiguration configuration)
+    {
         var validationResult = DisplayConfigNative.SetDisplayConfig(
-            (uint)paths.Length,
-            paths,
-            (uint)modes.Length,
-            modes,
+            (uint)configuration.Paths.Length,
+            configuration.Paths,
+            (uint)configuration.Modes.Length,
+            configuration.Modes,
             SetValidate | SetUseSuppliedDisplayConfig);
         ThrowForDisplayConfigError(validationResult, "validate the requested display profile");
-
-        cancellationToken.ThrowIfCancellationRequested();
-        var applyResult = DisplayConfigNative.SetDisplayConfig(
-            (uint)paths.Length,
-            paths,
-            (uint)modes.Length,
-            modes,
-            SetApply | SetUseSuppliedDisplayConfig | SetSaveToDatabase);
-        ThrowForDisplayConfigError(applyResult, "apply the requested display profile");
-        return Task.CompletedTask;
     }
 
     public Task RestoreConfigurationAsync(
@@ -481,9 +494,13 @@ public sealed class WindowsDisplayService : IDisplayService
     {
         if (errorCode != DisplayConfigNative.ErrorSuccess)
         {
-            throw new Win32Exception(errorCode, $"Windows could not {operation}.");
+            throw new Win32Exception(
+                errorCode,
+                $"Windows could not {operation} (Win32 error {errorCode}, 0x{errorCode:X8}).");
         }
     }
+
+    private sealed record RequestedDisplayConfiguration(DisplayConfigPathInfo[] Paths, DisplayConfigModeInfo[] Modes);
 
     private sealed record QueryResult(DisplayConfigPathInfo[] Paths, DisplayConfigModeInfo[] Modes);
 
