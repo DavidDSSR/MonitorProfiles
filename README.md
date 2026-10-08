@@ -1,42 +1,63 @@
 # Monitor Profiles
 
-Aplicación de escritorio WPF para Windows 11 que detecta pantallas y cambia sus modos mediante perfiles locales.
+[English](#english) · [Español](#español)
 
-## Requisitos
+## English
 
-- Windows 11 x64.
-- .NET 10 SDK para compilar o ejecutar desde el repositorio.
+**Download the latest Windows 11 x64 release:**
+[MonitorProfiles-win-x64.zip](https://github.com/DavidDSSR/MonitorProfiles/releases/latest/download/MonitorProfiles-win-x64.zip)
 
-## Ejecutar desde el código
+Monitor Profiles switches connected screens between saved profiles. It is a native WPF app for Windows 11, with one-click profile switching, a system-tray menu, and a safe preview/revert flow for custom changes.
 
-```powershell
-dotnet run --project src/MonitorProfiles.App/MonitorProfiles.App.csproj
-```
+### Run the app
 
-La primera vez, asigna los nombres Monitor 1–4 a las pantallas detectadas. Las pantallas encendidas pueden mostrar un marcador temporal con **Identificar**. Al guardar la asignación, se crean Trabajo, Competitivo e Historia. Los perfiles quedan guardados en `%LocalAppData%\MonitorProfileController\profiles.json` y la app permanece accesible desde la bandeja del sistema al cerrar la ventana.
+1. Download and extract `MonitorProfiles-win-x64.zip`.
+2. Run `MonitorProfiles.App.exe` from the extracted folder. The ZIP is self-contained; a separate .NET installation is not required.
+3. On first launch, identify and assign Monitor 1–4 to your connected screens, then choose **Save and create profiles**.
+4. Apply Work, Competitive, or Story with one click. Create custom profiles and use **Preview changes** to test them; the prior display setup returns automatically if you do not confirm within 15 seconds.
 
-La interfaz comienza en inglés y permite cambiar a español, francés, italiano, japonés, alemán o chino simplificado. El tema puede seguir a Windows o fijarse en claro u oscuro. Estas preferencias se guardan por usuario en `%LocalAppData%\MonitorProfileController\preferences.json`.
+The app supports English, Spanish, French, Italian, Japanese, German, and Simplified Chinese, plus System, Light, and Dark appearance. Profiles and preferences are stored locally under `%LocalAppData%\MonitorProfileController\`.
 
-Los perfiles guardados se aplican con un clic. Para probar cambios sin guardar, usa **Probar cambios**; la configuración previa se restaura automáticamente si no se confirma en 15 segundos.
+### Build from source
 
-## Apariencia e idiomas
-
-La aplicación ofrece los temas **Sistema**, **Claro** y **Oscuro**. También puedes elegir English, Español, Français, Italiano, 日本語, Deutsch o 简体中文 desde el selector del encabezado. Las preferencias se guardan por usuario en `%LocalAppData%\MonitorProfileController\preferences.json`. Los nombres de los tres perfiles incluidos y los nombres personalizados se mantienen tal como fueron guardados.
-
-## Pruebas
+Requirements: Windows 11 x64 and the .NET 10 SDK.
 
 ```powershell
 dotnet test MonitorProfiles.sln
-```
-
-## Publicar para Windows x64
-
-```powershell
+dotnet run --project src/MonitorProfiles.App/MonitorProfiles.App.csproj
 dotnet publish src/MonitorProfiles.App/MonitorProfiles.App.csproj -c Release -r win-x64 --self-contained true
 ```
 
-La salida publicable queda bajo `src/MonitorProfiles.App/bin/Release/net10.0-windows/win-x64/publish/`.
+### Source and license
 
-## Nota sobre modos de pantalla
+The source is available in this repository's `main` branch. You can fork or clone it and make your own changes; the project is licensed under [MIT](LICENSE).
 
-La app enumera modos que Windows informa para las pantallas activas. Para una pantalla conectada pero apagada, Windows puede no exponer su catálogo completo; en ese caso el perfil se valida con `SetDisplayConfig` antes de aplicar. Si Windows rechaza una combinación, se muestra el error y se intenta restaurar el estado anterior.
+## Español
+
+**Descarga la versión más reciente para Windows 11 x64:**
+[MonitorProfiles-win-x64.zip](https://github.com/DavidDSSR/MonitorProfiles/releases/latest/download/MonitorProfiles-win-x64.zip)
+
+Monitor Profiles cambia las pantallas conectadas entre perfiles guardados. Es una aplicación WPF nativa para Windows 11, con aplicación de perfiles en un toque, menú en la bandeja del sistema y una vista previa segura con reversión.
+
+### Ejecutar la aplicación
+
+1. Descarga y extrae `MonitorProfiles-win-x64.zip`.
+2. Ejecuta `MonitorProfiles.App.exe` desde la carpeta extraída. El ZIP es autocontenido; no necesitas instalar .NET por separado.
+3. En el primer inicio, identifica y asigna Monitor 1–4 a las pantallas conectadas y pulsa **Guardar y crear perfiles**.
+4. Aplica Trabajo, Competitivo o Historia con un toque. Puedes crear perfiles personalizados y usar **Probar cambios**; la configuración anterior se restaura automáticamente si no confirmas en 15 segundos.
+
+La app ofrece inglés, español, francés, italiano, japonés, alemán y chino simplificado, además de los temas Sistema, Claro y Oscuro. Los perfiles y las preferencias se guardan localmente en `%LocalAppData%\MonitorProfileController\`.
+
+### Compilar desde el código
+
+Requisitos: Windows 11 x64 y .NET 10 SDK.
+
+```powershell
+dotnet test MonitorProfiles.sln
+dotnet run --project src/MonitorProfiles.App/MonitorProfiles.App.csproj
+dotnet publish src/MonitorProfiles.App/MonitorProfiles.App.csproj -c Release -r win-x64 --self-contained true
+```
+
+### Código fuente y licencia
+
+El código está disponible en la rama `main` de este repositorio. Puedes crear un fork o clonarlo para hacer tus propios cambios; el proyecto utiliza la licencia [MIT](LICENSE).

@@ -1,0 +1,87 @@
+name: Publish official latest
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-latest
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and update the single latest release
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test the full solution
+        run: dotnet test MonitorProfiles.sln --configuration Release
+
+      - name: Publish self-contained Windows x64 app
+        shell: pwsh
+        run: |
+          $publishDirectory = Join-Path $env:RUNNER_TEMP "MonitorProfilesPublish"
+          dotnet publish src/MonitorProfiles.App/MonitorProfiles.App.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            --output $publishDirectory
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed with exit code $LASTEXITCODE" }
+          if (-not (Test-Path -LiteralPath (Join-Path $publishDirectory "MonitorProfiles.App.exe"))) {
+            throw "Published executable was not found."
+          }
+
+      - name: Package the portable ZIP
+        shell: pwsh
+        run: |
+          $publishDirectory = Join-Path $env:RUNNER_TEMP "MonitorProfilesPublish"
+          $zipPath = Join-Path $env:RUNNER_TEMP "MonitorProfiles-win-x64.zip"
+          Compress-Archive -Path (Join-Path $publishDirectory "*") `
+            -DestinationPath $zipPath `
+            -CompressionLevel Optimal `
+            -Force
+          if (-not (Test-Path -LiteralPath $zipPath)) { throw "Release ZIP was not created." }
+
+      - name: Create or replace the single latest release
+        shell: pwsh
+        env:
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          if ($env:GITHUB_REF -ne "refs/heads/main") { throw "Official releases can only be published from main." }
+          $tag = "latest"
+          $zipPath = Join-Path $env:RUNNER_TEMP "MonitorProfiles-win-x64.zip"
+
+          gh release view $tag --repo $env:GH_REPO 2>$null | Out-Null
+          $releaseExists = $LASTEXITCODE -eq 0
+
+          if ($releaseExists) {
+            gh release upload $tag $zipPath --clobber --repo $env:GH_REPO
+            if ($LASTEXITCODE -ne 0) { throw "Could not replace the latest ZIP asset." }
+
+            gh api --method PATCH "repos/$env:GH_REPO/git/refs/tags/$tag" `
+              -f sha=$env:RELEASE_SHA `
+              -F force=true | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw "Could not move the latest tag to the published commit." }
+          }
+          else {
+            gh release create $tag $zipPath `
+              --title "Latest official build" `
+              --notes "The single official, self-contained Windows 11 x64 build. The ZIP is replaced by each successful manual publication. Source code is on main." `
+              --target $env:RELEASE_SHA `
+              --latest `
+              --repo $env:GH_REPO
+            if ($LASTEXITCODE -ne 0) { throw "Could not create the latest release." }
+          }
